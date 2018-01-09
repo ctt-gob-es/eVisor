@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>es.gob.evisor</groupId>
+	<artifactId>eVisorProject</artifactId>
+	<version>3.0.0</version>
+	<packaging>pom</packaging>
+	<name>eVisorProject</name>
+	<description>Sistema de Emisión y Validación de Informe de Firma.</description>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			  <dependency>
+                  <groupId>org.jboss.spec</groupId>
+                  <artifactId>jboss-javaee-6.0</artifactId>
+                  <version>3.0.3.Final</version>
+                  <type>pom</type>
+                  <scope>import</scope>
+             </dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+             <groupId>javax.enterprise</groupId>
+             <artifactId>cdi-api</artifactId>
+             <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope
+           as the API is included in JBoss EAP -->
+        <dependency>
+             <groupId>org.jboss.spec.javax.annotation</groupId>
+             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+             <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+             <groupId>org.hibernate.javax.persistence</groupId>
+             <artifactId>hibernate-jpa-2.0-api</artifactId>
+             <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+             <groupId>org.jboss.spec.javax.transaction</groupId>
+             <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+             <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+             <groupId>org.jboss.spec.javax.ejb</groupId>
+             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+             <scope>provided</scope>
+        </dependency>
+        
+        <!-- Import the SERVLET API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+			<artifactId>jboss-jsp-api_2.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+				
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>provided</scope>
+		</dependency>
+		
+    </dependencies>
+
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+					<compilerArguments>
+						<endorseddirs>-Djava.endorsed.dirs=${project.build.directory}/endorsed</endorseddirs>
+					</compilerArguments>
+					<executable>D:/software/java/jdk1.6.0_22/bin/javac</executable>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+							<silent>true</silent>
+							<artifactItems>
+								<artifactItem>
+									<groupId>javax</groupId>
+									<artifactId>javaee-endorsed-api</artifactId>
+									<version>6.0</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.2,)
+										</versionRange>
+										<goals>
+											<goal>copy</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											sql-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.4,)
+										</versionRange>
+										<goals>
+											<goal>execute</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-ear-plugin
+										</artifactId>
+										<versionRange>
+											[2.4.2,)
+										</versionRange>
+										<goals>
+											<goal>
+												generate-application-xml
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore/>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+
+		<!-- PERFIL PARA DESARROLLO: Crea una conexion con un dialecto Oracle para 
+			usar la base de datos local. ESTE PERFIL ES EL USADO POR DEFECTO -->
+		<profile>
+			<id>develop</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<maven.compiler.debug>true</maven.compiler.debug>
+
+				<db.datasources.standalone-full-ha.dir.from.ear>../resources/jboss-7.1.1.Final/standalone/configuration</db.datasources.standalone-full-ha.dir.from.ear>
+				<db.connection.configuration.url>jdbc:oracle:thin:@localhost:1521:XE</db.connection.configuration.url>
+				<db.connection.configuration.driver>oracle-driver</db.connection.configuration.driver>
+				<db.datasource.configuration.name>jboss/datasources/EVisorConfigurationDS</db.datasource.configuration.name>
+				<db.datasource.configuration.user>EVISOROWNER</db.datasource.configuration.user>
+				<db.datasource.configuration.password>12345</db.datasource.configuration.password>
+				<db.datasource.audit.name>jboss/datasources/EVisorAuditDS</db.datasource.audit.name>
+				<db.dialect>org.hibernate.dialect.Oracle10gDialect</db.dialect>
+				<db.show.sql>false</db.show.sql>
+				
+				
+				<!-- Database standalone connection properties -->
+				<db.standalone.persistence>src/main/resources/persistence/oracle</db.standalone.persistence>
+				<orm.relative.path.dir>src/main/resources/orm/oracle</orm.relative.path.dir>
+				<db.standalone.dialect>org.hibernate.dialect.Oracle10gDialect</db.standalone.dialect>
+				<db.standalone.show.sql>true</db.standalone.show.sql>
+				<db.standalone.url>jdbc:oracle:thin:@localhost:1521:XE</db.standalone.url>
+				<db.standalone.driver>oracle.jdbc.driver.OracleDriver</db.standalone.driver>
+				<db.standalone.user>EVISOROWNER</db.standalone.user>
+				<db.standalone.password>12345</db.standalone.password>
+			</properties>
+		</profile>
+
+		<!-- PERFIL PARA PRODUCCIÓN: Crea una conexion con un dialecto Oracle para 
+			usar la base de datos de producción -->
+		<profile>
+			<id>production</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<maven.compiler.debug>false</maven.compiler.debug>
+
+				<db.datasources.standalone-full-ha.dir.from.ear>../resources/jboss-7.1.1.Final/standalone/configuration</db.datasources.standalone-full-ha.dir.from.ear>
+				<db.connection.configuration.url>jdbc:oracle:thin:@localhost:1521:XE</db.connection.configuration.url>
+				<db.connection.configuration.driver>oracle-driver</db.connection.configuration.driver>
+				<db.datasource.configuration.name>jboss/datasources/EVisorConfigurationDS</db.datasource.configuration.name>
+				<db.datasource.audit.name>jboss/datasources/EVisorAuditDS</db.datasource.audit.name>
+				<db.datasource.configuration.user>EVISOROWNER</db.datasource.configuration.user>
+				<db.datasource.configuration.password>12345</db.datasource.configuration.password>
+				<db.dialect>org.hibernate.dialect.Oracle10gDialect</db.dialect>
+				<db.show.sql>false</db.show.sql>
+				
+				
+				<!-- Database standalone connection properties -->
+				<db.standalone.persistence>src/main/resources/persistence/oracle</db.standalone.persistence>
+				<orm.relative.path.dir>src/main/resources/orm/oracle</orm.relative.path.dir>
+				<db.standalone.dialect>org.hibernate.dialect.Oracle10gDialect</db.standalone.dialect>
+				<db.standalone.show.sql>true</db.standalone.show.sql>
+				<db.standalone.url>jdbc:oracle:thin:@localhost:1521:XE</db.standalone.url>
+				<db.standalone.driver>oracle.jdbc.driver.OracleDriver</db.standalone.driver>
+				<db.standalone.user>EVISOROWNER</db.standalone.user>
+				<db.standalone.password>12345</db.standalone.password>
+			</properties>
+			
+		</profile>
+	</profiles>
+	<modules>
+		<module>eVisorCore</module>
+		<module>eVisorWeb</module>
+		<module>eVisorPersistence</module>
+		<module>eVisorEar</module>
+		<module>eVisorToPdfWS</module>
+		<module>eVisorToPdfWSClient</module>
+		<module>eVisorStandaloneAudit</module>
+		<module>eVisorStandaloneStatistics</module>
+	</modules>
+</project>

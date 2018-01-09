@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template_ini.xhtml">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+		<h:form id="loginForm">
+
+			<rich:spacer height="15" />
+
+			<h:panelGrid columns="1" width="100%" columnClasses="centerText"
+				rowClasses="centerText" styleClass="centerText">
+
+				<h:panelGrid id="panelContent" columns="1"
+					columnClasses="centerText" styleClass="centerText" width="500">
+
+					<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+						<h:outputText value="#{msg.WTITLE_LOGIN}" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+						width="100%" styleClass="panel0" columnClasses="centerText">
+
+						<rich:spacer height="5" />
+						<h:outputText value="#{msg.WLOGIN_L1}" styleClass="text11" />
+						<rich:spacer height="5" />
+
+						<rich:separator lineType="beveled" height="2" width="100%"
+							align="center" />
+
+
+
+						<h:panelGrid columns="2" border="0"
+							columnClasses="centerText, centerText" width="100%">
+
+							<h:graphicImage value="/img/login.png" alt="" title="" />
+
+							<h:panelGrid columns="1" border="0" columnClasses="centerText"
+								width="100%">
+								<h:messages showDetail="true" infoClass="minihmsg_info"
+									warnClass="minihmsg_error" errorClass="minihmsg_error" />
+
+								<h:panelGrid columns="1" columnClasses="leftText" border="0"
+									width="60">
+									<h:outputText value="#{msg.WLOGIN_USER}" styleClass="text11b" />
+									<h:inputText id="username" value="#{userManager.username}"
+										size="35" styleClass="input" />
+									<rich:spacer height="3" />
+									<h:outputText value="#{msg.WLOGIN_PASSWORD}"
+										styleClass="text11b" />
+									<h:inputSecret id="password" value="#{userManager.password}"
+										size="35" styleClass="input" />
+								</h:panelGrid>
+
+								<h:commandButton id="submit" type="submit"
+									value="#{msg.WLOGIN_ENTER}"
+									action="#{userManager.validateUser}" immediate="false"
+									styleClass="boton" />
+
+							</h:panelGrid>
+
+
+
+						</h:panelGrid>
+
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" border="0"
+							columnClasses="rightText, leftText" styleClass="panel0"
+							width="100%">
+							<h:outputLink
+						value="/eVisor/services/SignatureReportService?wsdl">
+							<h:graphicImage value="/img/wsdl.jpg" alt="" title="" style="border: none;"/>
+							</h:outputLink>
+							<h:outputLink value="/eVisor/services/SignatureReportService?wsdl">
+							Consultar el fichero descriptor de servicio (WSDL).</h:outputLink>
+						</h:panelGrid>
+
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
+
+

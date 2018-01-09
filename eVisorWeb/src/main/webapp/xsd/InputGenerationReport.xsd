@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp1 (http://www.altova.com) by SEJRL (EMBRACE) -->
+<xs:schema xmlns="urn:es:gob:signaturereport:generation:inputparameters" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:es:gob:signaturereport:generation:inputparameters">
+	<xs:element name="ValidationResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Result"/>
+				<xs:element ref="IndividualSignature" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TimeStamp" type="xs:string"/>
+	<xs:element name="Result">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Major"/>
+				<xs:element ref="Minor" minOccurs="0"/>
+				<xs:element ref="Message" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParameterValue" type="xs:string"/>
+	<xs:element name="ParameterId" type="xs:string"/>
+	<xs:element name="Parameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ParameterId"/>
+				<xs:element ref="ParameterValue"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Minor" type="xs:anyURI"/>
+	<xs:element name="Message" type="xs:string"/>
+	<xs:element name="Major" type="xs:anyURI"/>
+	<xs:element name="IndividualSignature">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Result"/>
+				<xs:element ref="TimeStamp" minOccurs="0"/>
+				<xs:element ref="CertificateInfo" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GenerationReport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ValidationResult"/>
+				<xs:element ref="GenerationTime"/>
+				<xs:element ref="ExternalParameters" minOccurs="0"/>
+				<xs:element ref="DocumentInfo" minOccurs="0"/>
+				<xs:element ref="Barcodes" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GenerationTime" type="xs:string"/>
+	<xs:element name="FieldValue" type="xs:string"/>
+	<xs:element name="FieldId" type="xs:string"/>
+	<xs:element name="Field">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="FieldId"/>
+				<xs:element ref="FieldValue"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExternalParameters">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Parameter"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CertificateInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Field"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DocumentInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="NumPages"/>
+				<xs:element ref="PagesList" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NumPages" type="xs:integer"/>
+	<xs:element name="PagesList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Page" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Page">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Number"/>
+				<xs:element ref="URL"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Number" type="xs:integer"/>
+	<xs:element name="URL" type="xs:string"/>
+	<xs:element name="Barcodes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Barcode" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Barcode">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Type"/>
+				<xs:element ref="Code"/>
+				<xs:element ref="URL"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Type" type="xs:string"/>
+	<xs:element name="Code" type="xs:string"/>
+	<xs:element name="IncludePage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="DocumentPage"/>
+				<xs:element ref="ReportPage"/>
+			</xs:sequence>
+			<xs:attribute name="Xpos" type="xs:string"/>
+			<xs:attribute name="Ypos" type="xs:string"/>
+			<xs:attribute name="Width" type="xs:string"/>
+			<xs:attribute name="Height" type="xs:string"/>
+			<xs:attribute name="Layout" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DocumentPage" type="xs:integer"/>
+	<xs:element name="ReportPage" type="xs:integer"/>
+</xs:schema>

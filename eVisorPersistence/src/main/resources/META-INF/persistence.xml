@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="evisor-configuration-persistence"
+		transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:${db.datasource.configuration.name}</jta-data-source>
+		<!-- <mapping-file>META-INF/configuration-orm.xml</mapping-file> -->
+		<properties>
+			<!-- Hibernate properties - Using JBoss 7 AS provider -->
+			<property name="hibernate.dialect" value="${db.dialect}" />
+			<property name="hibernate.show_sql" value="${db.show.sql}" />
+			<property name="hibernate.format_sql" value="${db.show.sql}" />
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="evisor-audit-persistence"
+		transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:${db.datasource.audit.name}</jta-data-source>
+		<!-- <mapping-file>META-INF/audit-orm.xml</mapping-file> -->
+		<properties>
+			<!-- Hibernate properties - Using JBoss 7 AS provider -->
+			<property name="hibernate.dialect" value="${db.dialect}" />
+			<property name="hibernate.show_sql" value="${db.show.sql}" />
+			<property name="hibernate.format_sql" value="${db.show.sql}" />
+		</properties>
+	</persistence-unit>
+</persistence>

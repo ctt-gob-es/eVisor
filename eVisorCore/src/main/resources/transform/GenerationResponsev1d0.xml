@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<srsm:GenerationResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:srsm="urn:es:gob:signaturereport:services:messages">
+	<srsm:Result>
+		<srsm:Code/>
+		<srsm:Message/>
+	</srsm:Result>
+	<srsm:Report/>
+</srsm:GenerationResponse>

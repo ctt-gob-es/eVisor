@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+	<ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+	<deployment>
+		<dependencies>
+				<module name="javax.enterprise.api"></module> <!-- Include cdi-api-1.0-SP4 -->
+				<module name="org.jboss.as.web"></module>
+		</dependencies>
+		<exclusions>
+			<module name="org.apache.log4j" />
+		</exclusions>
+	</deployment>
+	<sub-deployment name="eVisorCore-3.0.0.jar">
+		<exclusions>
+			<module name="org.apache.log4j" />
+			<module name="org.apache.ws" />
+		</exclusions>
+	</sub-deployment>
+	<sub-deployment name="eVisorPersistence-3.0.0.jar">
+		<exclusions>
+			<module name="org.apache.log4j" />
+		</exclusions>
+	</sub-deployment>
+	<sub-deployment name="eVisorToPdfWSClient-3.0.0.jar">
+		<exclusions>
+			<module name="org.apache.log4j" />
+		</exclusions>
+	</sub-deployment>
+	<sub-deployment name="eVisorWeb-3.0.0.war">
+		<dependencies>
+			<module name="javax.faces.api"></module><!-- Include jboss-jsf-api_2.1_spec-2.0.1.Final -->
+		</dependencies>
+		<exclusions>
+			<module name="org.apache.log4j" />
+		</exclusions>
+	</sub-deployment>
+</jboss-deployment-structure>

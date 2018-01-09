@@ -1,0 +1,582 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+		<rich:modalPanel id="modalPanelTest" autosized="true" zindex="2000">
+			<f:facet name="header">
+				<h:outputText value="#{msg.WTEMPLATE_TEST}" />
+			</f:facet>
+			<h:form id="formTest">
+	
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="centerText" columns="1">
+					<h:panelGrid id="panelFieldsModeTest" width="100%" columnClasses="rightText, leftText"
+						columns="2">
+						<h:outputText value="Tipo de parámetros" styleClass="texto10" />
+						<h:selectOneMenu id="inputModeText"
+											value="#{templates.testMode}">
+							<f:selectItem itemLabel="#{msg.WTEMPLATE_DEFAULT_TEST}"
+												itemValue="0" />
+							<f:selectItem itemLabel="#{msg.WTEMPLATE_CUSTOM_TEST}"
+												itemValue="1" />
+
+							<f:converter converterId="javax.faces.Integer" />
+
+							<a4j:support event="onchange" reRender="formTest" />
+
+						</h:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid id="panelFieldsModeDefTest" width="100%" columns="1"
+						style="text-align: left !important;" rendered="#{templates.testMode eq 0}">
+						<h:outputText rendered="#{!templates.hasDefaultDataToTest}" value="#{msg.WTEMPLATE_NO_DEFAULT_DATA}" 
+							style="color:red;"/>
+						<h:panelGroup style="text-align: left !important;">
+							<h:outputText value="#{msg.WTEMPLATE_DEFAULT_PARAMS}: "
+								styleClass="texto10" style="width: 100px;"/>
+							<h:selectOneMenu id="defParams" required="true"
+								value="#{templates.defaultSelectedParam}" disabled="#{!templates.hasDefaultDataToTest and templates.testMode eq 0}">
+								<f:selectItem noSelectionOption="true" itemValue="---"/>
+								<f:selectItems value="#{templates.defaultParameterNames}" />
+								<a4j:support event="onchange" reRender="formTest" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+						<h:panelGroup style="text-align: left !important;">
+							<h:outputText value="#{msg.WTEMPLATE_DEFAULT_DOCS}: "
+								styleClass="texto10" style="width: 100px;"/>
+							<h:selectOneMenu id="defDocs" required="true"
+								value="#{templates.defaultSelectedDoc}" disabled="#{!templates.hasDefaultDataToTest and templates.testMode eq 0}">
+								<f:selectItem noSelectionOption="true" itemValue="---"/>
+								<f:selectItems value="#{templates.defaultDocumentNames}" />
+								<a4j:support event="onchange" reRender="formTest" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+					</h:panelGrid>
+					<h:panelGrid width="100%" styleClass="panel0"
+						columnClasses="centerText" id="panelFieldsModeAdvTest" columns="1" rendered="#{templates.testMode eq 1}">
+						<h:panelGrid  width="100%" columnClasses="rightText, leftText"
+						columns="2">
+							<rich:fileUpload id="uploadXMLButton" maxFilesQuantity="1"
+									fileUploadListener="#{templates.onUpLoadXMLComplete}"
+									immediateUpload="true" allowFlash="false" listHeight="70"
+									listWidth="430" autoclear="false"
+									addControlLabel="Selecciona el fichero XML de entrada"
+									clearAllControlLabel="#{msg.WGLOBAL_CLEAR}"
+									clearControlLabel="#{msg.WGLOBAL_CLEAR}"
+									stopEntryControlLabel="#{msg.WGLOBAL_STOP}"
+									uploadControlLabel="#{msg.WGLOBAL_UPLOAD}">
+								<a4j:support event="onuploadcomplete"
+										reRender="panelFieldsModeAdvTest" />
+							</rich:fileUpload>
+							<rich:spacer width="5" rendered="#{templates.testMode eq 1}"/>
+							<h:outputText value="Tamaño del fichero XML: #{templates.sizeXMLFile} bytes" styleClass="texto10" 
+								rendered="#{templates.testMode eq 1}"/>
+							<rich:spacer width="5" 
+								rendered="#{templates.testMode eq 1}"/>
+							<rich:fileUpload id="uploadDocumentButton" maxFilesQuantity="1"
+									fileUploadListener="#{templates.onUpLoadDocComplete}"
+									immediateUpload="true" allowFlash="false" listHeight="70"
+									listWidth="430" autoclear="false"
+									addControlLabel="Selecciona el documento"
+									clearAllControlLabel="#{msg.WGLOBAL_CLEAR}"
+									clearControlLabel="#{msg.WGLOBAL_CLEAR}"
+									stopEntryControlLabel="#{msg.WGLOBAL_STOP}"
+									uploadControlLabel="#{msg.WGLOBAL_UPLOAD}">
+								<a4j:support event="onuploadcomplete"
+										reRender="panelFieldsModeAdvTest" />
+							</rich:fileUpload>
+							<rich:spacer width="5" />
+							<h:outputText value="Tamaño del documento: #{templates.sizeDocFile} bytes" styleClass="texto10" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid id="panelButtonsTest" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%">
+					<h:panelGroup>
+						<h:commandButton id="processTest"
+										value="#{msg.WGLOBAL_TEST}" styleClass="boton"
+										onclick="Richfaces.hideModalPanel('modalPanelTest')"
+										action="#{templates.onTemplateTest}"
+										type="submit" disabled="#{!templates.hasDefaultDataToTest and templates.testMode eq 0}"
+										reRender="templatesForm, formDeleteTemplate" />
+
+						<rich:spacer width="5" />
+						<a4j:commandButton id="cancelTest"
+									value="Cancelar" rendered="true"
+									onclick="Richfaces.hideModalPanel('modalPanelTest')"
+									reRender="templatesForm, formDeleteTemplate" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</h:form>
+
+		</rich:modalPanel>
+
+		<rich:modalPanel id="panelNewTemplate" autosized="true" zindex="2000"
+			onhide="reRenderData();">
+			<f:facet name="header">
+				<h:outputText value="#{msg.WTEMPLATE_NEW}" />
+			</f:facet>
+
+			<h:form id="formNewTemplate">
+				<a4j:jsFunction name="reRenderData" reRender="panelDataTemplate" />
+
+				<h:messages showDetail="true" infoClass="minihmsg_info"
+					warnClass="minihmsg_error" errorClass="minihmsg_error" />
+
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="centerText" columns="1">
+					<h:panelGrid width="100%" columnClasses="rightText, leftText"
+						columns="2">
+						<h:outputText value="#{msg.WTEMPLATE_ID}" styleClass="texto10" />
+						<h:inputText id="inputIdDoc"
+							value="#{templates.templateEdit.identifier}" readonly="false"
+							size="40" />
+						<h:outputText value="#{msg.WTEMPLATE_TYPE}" styleClass="texto10" />
+					
+						 <h:inputHidden id="inputNewTemplateType" value="0" />
+ 
+					</h:panelGrid>
+					<rich:fileUpload id="uploadNewButton" maxFilesQuantity="1"
+						fileUploadListener="#{templates.onUploadComplete}"
+						immediateUpload="true" allowFlash="false" listHeight="70"
+						listWidth="420" autoclear="false"
+						addControlLabel="#{msg.WTEMPLATE_SELECTFILE}"
+						clearAllControlLabel="#{msg.WGLOBAL_CLEAR}"
+						clearControlLabel="#{msg.WGLOBAL_CLEAR}"
+						stopEntryControlLabel="#{msg.WGLOBAL_STOP}"
+						uploadControlLabel="#{msg.WGLOBAL_UPLOAD}">
+						<a4j:support event="onuploadcomplete"
+							reRender="uploadNewButton, panelDescFile" />
+					</rich:fileUpload>
+					<h:panelGroup id="panelDescFile">
+						<h:outputText value="#{msg.WTEMPLATE_FILESIZE} "
+							styleClass="texto10" />
+						<h:outputText value="#{templates.templateSize} bytes"
+							styleClass="texto10" />
+					</h:panelGroup>
+				</h:panelGrid>
+				<rich:spacer height="10" />
+				<h:panelGrid width="100%" columnClasses="rightText" columns="1"
+					styleClass="panel0">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							styleClass="boton"
+							onclick="Richfaces.hideModalPanel('panelNewTemplate')"
+							action="#{templates.onCancelNewTemplate}" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WTEMPLATE_CREATENEW}"
+							action="#{templates.onNewTemplate}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) #{rich:component('panelNewTemplate')}.hide();"
+							reRender="formNewTemplate" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</h:form>
+		</rich:modalPanel>
+
+
+
+
+
+		<rich:modalPanel id="modalPanelDelete" minHeight="150" minWidth="450"
+			height="150" width="450" zindex="2000">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WTEMPLATE_DELETETITLE}" />
+			</f:facet>
+			<h:form id="formDeleteTemplate">
+				<h:panelGrid width="100%" columnClasses="centerText" columns="1"
+					styleClass="panel0">
+					<h:outputText
+						value="#{msg.WTEMPLATE_DELETEDESC} '#{templates.templateEdit.identifier}'"
+						styleClass="text11" />
+					<rich:spacer height="10" />
+					<h:outputText value="#{msg.WTEMPLATE_DELETECONFIRM}"
+						styleClass="text11" />
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelDelete')" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WTEMPLATE_DELETE}"
+							action="#{templates.onDeleteTemplate}" type="submit"
+							oncomplete="#{rich:component('modalPanelDelete')}.hide()"
+							reRender="templatesForm"/>
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+		</rich:modalPanel>
+
+
+
+		<h:form id="templatesForm">
+
+
+			<rich:panel style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WTITLE_TEMPLATES}" />
+				</f:facet>
+
+				<h:panelGrid id="panelContent" columns="2"
+					columnClasses="left-top,left-top" width="100%">
+
+					<h:panelGrid id="panelTree" columns="1" width="220px">
+
+						<a4j:commandButton id="newButton" value="#{msg.WTEMPLATE_NEW}"
+							action="#{templates.onStartNewTemplate}" type="submit"
+							oncomplete="#{rich:component('panelNewTemplate')}.show()"
+							reRender="templatesForm, formDeleteTemplate, formNewTemplate" />
+
+
+
+						<rich:panel style="scrollTree">
+							<rich:tree value="#{templates.treeData}"
+								nodeSelectListener="#{templates.selectionTreeListener}"
+								var="template"
+								reRender="templatesForm, formDeleteTemplate, formNewTemplate"
+								ajaxSubmitSelection="true" nodeFace="#{template.type}" styleClass="scrollTree2">
+
+								<rich:treeNode type="extension">
+									<h:outputText value="#{template.text}" />
+								</rich:treeNode>
+
+								<rich:treeNode type="pdf" iconLeaf="/img/tree/pdf.png"
+									icon="/img/tree/pdf.png">
+									<h:outputText value="#{template.text}" />
+									<f:param name="iduo" value="#{template.id}" />
+								</rich:treeNode>
+								
+							</rich:tree>
+						</rich:panel>
+					</h:panelGrid>
+
+
+
+
+
+
+					<h:panelGrid id="panelDataTemplate" columns="1" width="690">
+						<rich:panel style="width=100%"
+							rendered="#{not empty facesContext.maximumSeverity}">
+							<h:panelGroup>
+								<h:messages showDetail="true" infoClass="hmsg_info"
+									warnClass="hmsg_error" errorClass="hmsg_error" />
+							</h:panelGroup>
+						</rich:panel>
+
+						<rich:panel id="panelHelp" style="width=100%"
+							rendered="#{templates.status eq 0}">
+							<f:facet name="header">
+								<h:outputText value="Información" />
+							</f:facet>
+							<h:panelGrid columns="2" columnClasses="centerText, leftText"
+								width="100%">
+								<h:graphicImage value="/img/help50.png"
+									style="border-style: none;" />
+								<h:panelGroup>
+									<h:outputText
+										value="Seleccione una plantilla del árbol de plantillas, o seleccione la opción de " />
+
+									<a4j:commandButton id="newButton2" value="#{msg.WTEMPLATE_NEW}"
+										action="#{templates.onStartNewTemplate}" type="submit"
+										oncomplete="#{rich:component('panelNewTemplate')}.show()"
+										reRender="templatesForm, formDeleteTemplate, formNewTemplate" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</rich:panel>
+
+
+						<rich:panel id="panelDataEdit" style="width=100%"
+							rendered="#{templates.status ne 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WTEMPLATE_DATA}" />
+							</f:facet>
+
+
+							<h:panelGrid id="panelFieldsTemplate" columns="2"
+								columnClasses="rightText, leftText" width="100%">
+
+
+								<h:outputText value="#{msg.WTEMPLATE_ID}" styleClass="text11" />
+								<h:inputText id="inputId"
+									value="#{templates.templateEdit.identifier}" readonly="true"
+									size="60" />
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WTEMPLATE_FILE}" width="100%" />
+							</h:panelGrid>
+							<h:panelGrid id="panelFileFields" columns="1"
+								columnClasses="leftText" styleClass="panel0" width="100%">
+
+
+								<h:commandButton id="downloadButton"
+									value="#{msg.WTEMPLATE_DOWNLOAD}" styleClass="boton"
+									action="#{templates.onDownload}" type="submit"
+									rendered="#{templates.templateSize ne 0}" />
+
+								<rich:spacer height="4" />
+
+								<rich:fileUpload id="uploadEditButton" maxFilesQuantity="1"
+									fileUploadListener="#{templates.onUploadComplete}"
+									immediateUpload="true" allowFlash="false" listHeight="70"
+									listWidth="430" autoclear="false"
+									addControlLabel="#{msg.WTEMPLATE_SELECTFILE}"
+									clearAllControlLabel="#{msg.WGLOBAL_CLEAR}"
+									clearControlLabel="#{msg.WGLOBAL_CLEAR}"
+									stopEntryControlLabel="#{msg.WGLOBAL_STOP}"
+									uploadControlLabel="#{msg.WGLOBAL_UPLOAD}">
+									<a4j:support event="onuploadcomplete"
+										reRender="panelFileFields" />
+								</rich:fileUpload>
+								<h:panelGroup id="panelDescFileEdit">
+									<h:outputText value="#{msg.WTEMPLATE_FILESIZE} "
+										styleClass="texto10" />
+									<h:outputText value="#{templates.templateSize} bytes"
+										styleClass="texto10" />
+								</h:panelGroup>
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WTEMPLATE_MODEGEN}" width="100%" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelGenerationMode"
+									columnClasses="leftText" columns="1">
+								<t:selectOneRadio id="inputGen" styleClass="panel0"
+										value="#{templates.templateEdit.forceGeneration}" layout="pageDirection"
+										border="0" style="width:100%" >
+									<f:selectItem id="gialways"
+											itemLabel="#{msg.WTEMPLATE_MODE_FORCE}" itemValue="true" />
+									<f:selectItem id="gionly"
+											itemLabel="#{msg.WTEMPLATE_MODE_ONLY_VALID}" itemValue="false" />
+
+									<f:converter converterId="javax.faces.Boolean" />
+
+								</t:selectOneRadio>
+
+							</h:panelGrid>
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WTEMPLATE_MODEDOC}" width="100%" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelFieldsModePDF" styleClass="panel0"
+								columns="1" columnClasses="leftText" width="100%"
+								rendered="#{(templates.status eq 1) or (templates.status eq 2)}">
+
+
+								<h:selectOneMenu id="inputModePDF"
+									value="#{templates.templateEdit.modeDocInclude}">
+									<f:selectItem itemLabel="#{msg.WTEMPLATE_MODEDOC_NONE}"
+										itemValue="0" />
+									<f:selectItem itemLabel="#{msg.WTEMPLATE_MODEDOC_IMAGE}"
+										itemValue="1" />
+									<f:selectItem itemLabel="#{msg.WTEMPLATE_MODEDOC_EMBED}"
+										itemValue="2" />
+									<f:selectItem itemLabel="#{msg.WTEMPLATE_MODEDOC_CONCAT}"
+										itemValue="3" />
+
+									<f:converter converterId="javax.faces.Integer" />
+
+									<a4j:support event="onchange" reRender="panelFieldsModePDF" />
+
+								</h:selectOneMenu>
+
+
+								<h:panelGrid id="panelModePDFImage"
+									rendered="#{templates.templateEdit.modeDocInclude eq 1}"
+									cellpadding="2" cellspacing="2"
+									columnClasses="leftText,leftText" columns="2" width="100%">
+
+
+									<t:selectOneRadio id="inputImageRulePDF" styleClass="panel0"
+										value="#{templates.selectOneModeImg}" layout="pageDirection"
+										border="0">
+										<f:selectItem id="sipdf1"
+											itemLabel="#{msg.WTEMPLATE_MODEDOC_ALL}" itemValue="1" />
+										<f:selectItem id="sipdf2"
+											itemLabel="#{msg.WTEMPLATE_MODEDOC_RANGE}" itemValue="2" />
+
+										<f:converter converterId="javax.faces.Integer" />
+
+										<a4j:support event="onclick" reRender="panelModePDFImage" />
+
+									</t:selectOneRadio>
+									<h:panelGroup rendered="#{templates.selectOneModeImg eq 2}">
+										<h:outputText value="#{msg.WTEMPLATE_MODEDOC_PAGES}"
+											styleClass="text11" />
+										<rich:spacer width="4" />
+										<h:inputText id="inputConcatRulePDFPages"
+											value="#{templates.templateEdit.pagesRange}" readonly="false"
+											size="60" />
+									</h:panelGroup>
+									<rich:spacer rendered="#{templates.selectOneModeImg ne 2}"
+										height="1" />
+
+
+
+								</h:panelGrid>
+
+
+
+
+
+
+
+								<h:panelGrid id="panelModePDFConcat"
+									rendered="#{templates.templateEdit.modeDocInclude eq 3}"
+									cellpadding="2" cellspacing="2" columnClasses="leftText"
+									columns="1" width="100%">
+
+									<h:panelGroup>
+
+										<h:outputText value="#{msg.WTEMPLATE_MODEDOC_RULE}"
+											styleClass="text11" />
+										<rich:spacer width="4" />
+										<h:inputText id="inputConcatRulePDF"
+											value="#{templates.templateEdit.concatenationRule}"
+											readonly="false" size="60" />
+
+									</h:panelGroup>
+								</h:panelGrid>
+
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle"
+								rendered="#{(templates.status eq 1) or (templates.status eq 2)}">
+								<h:outputText value="#{msg.WTEMPLATE_ATT}" width="100%" />
+							</h:panelGrid>
+							<h:panelGrid id="panelAttachedPDF" styleClass="panel0"
+								columns="2" columnClasses="leftText,leftText" width="100%"
+								rendered="#{(templates.status eq 1) or (templates.status eq 2)}">
+
+								<h:panelGroup>
+									<h:selectBooleanCheckbox
+										value="#{templates.templateEdit.attachSignature}">
+									</h:selectBooleanCheckbox>
+									<rich:spacer width="4" />
+									<h:outputText value="#{msg.WTEMPLATE_ATT_SIGN}" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<h:selectBooleanCheckbox
+										value="#{templates.templateEdit.attachCertificate}">
+									</h:selectBooleanCheckbox>
+									<rich:spacer width="4" />
+									<h:outputText value="#{msg.WTEMPLATE_ATT_CERT}" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<h:selectBooleanCheckbox
+										value="#{templates.templateEdit.attachDocument}">
+									</h:selectBooleanCheckbox>
+									<rich:spacer width="4" />
+									<h:outputText value="#{msg.WTEMPLATE_ATT_DOC}" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<h:selectBooleanCheckbox
+										value="#{templates.templateEdit.attchResponse}">
+									</h:selectBooleanCheckbox>
+									<rich:spacer width="4" />
+									<h:outputText value="#{msg.WTEMPLATE_ATT_RESPONSE}" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<h:selectBooleanCheckbox
+										value="#{templates.templateEdit.attchDocInSignature}">
+									</h:selectBooleanCheckbox>
+									<rich:spacer width="4" />
+									<h:outputText value="#{msg.WTEMPLATE_ATT_DOC_SIG}" />
+								</h:panelGroup>
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+
+							<h:panelGrid id="panelButtonsSave" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%"
+								rendered="#{(templates.status eq 2) or (templates.status eq 4)}">
+							
+								<h:panelGroup>
+									<a4j:commandButton id="newButtonTest"
+										value="#{msg.WGLOBAL_TEST}" styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelTest',{width:450, top:100})" type="submit"
+										reRender="templatesForm, formDeleteTemplate" />
+									<rich:spacer width="5" />
+									<a4j:commandButton id="newButtonAcept"
+									value="#{msg.WGLOBAL_SAVE}" rendered="true"
+									action="#{templates.onNewTemplateAcept}" type="submit"
+									reRender="templatesForm, formDeleteTemplate" />
+								</h:panelGroup>
+							</h:panelGrid>
+
+
+							<h:panelGrid id="panelButtonsEdit" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%"
+								rendered="#{(templates.status eq 1) or (templates.status eq 3)}">
+
+
+								<h:panelGroup>
+									<!-- Boton de Test-->
+									<a4j:commandButton id="buttonTest"
+										value="#{msg.WGLOBAL_TEST}" styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelTest',{width:450, top:100})" type="submit"
+										reRender="templatesForm, formDeleteTemplate" />
+
+									<rich:spacer width="5" />
+									<a4j:commandButton id="buttonModify"
+										value="#{msg.WGLOBAL_MODIFY}" styleClass="boton"
+										action="#{templates.onModifyTemplate}" type="submit"
+										reRender="templatesForm, formDeleteTemplate" />
+
+									<rich:spacer width="5" />
+									<a4j:commandButton id="buttonDelete" value="#{msg.WGLOBAL_DEL}"
+										styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelDelete',{width:450, top:170})"
+										type="submit" reRender="templatesForm, formDeleteTemplate" />
+
+								</h:panelGroup>
+
+							</h:panelGrid>
+
+						</rich:panel>
+					</h:panelGrid>
+
+				</h:panelGrid>
+			</rich:panel>
+
+
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>

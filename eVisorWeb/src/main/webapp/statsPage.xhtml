@@ -1,0 +1,378 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+		<rich:modalPanel id="modalPanelOptions" autosized="true" zindex="2000">
+			<f:facet name="header">
+				<h:outputText value="#{msg.WSTAT_STATSTYPE}" />
+			</f:facet>
+			<h:form id="optionsForm">
+				<h:panelGrid width="400" columnClasses="centerText" columns="1"
+					styleClass="panel0">
+					<h:selectOneMenu id="statType" value="#{stats.statType}">
+						<f:selectItem itemLabel="#{msg.WSTAT_AGRUP}" itemValue="0" />
+						<f:selectItem itemLabel="Tabular" itemValue="1" />
+						<f:converter converterId="javax.faces.Integer" />
+						<a4j:support event="onchange" reRender="optionsForm" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<rich:spacer height="15" />
+
+				<h:panelGrid width="400" columnClasses="rightText,leftText"
+					columns="2" styleClass="panel0" rendered="#{stats.statType eq 0}">
+					<h:outputText value="#{msg.WSTAT_GRUPFIELD}" styleClass="text11" />
+					<h:selectOneMenu value="#{stats.fieldAgrup}">
+						<f:selectItems value="#{stats.selectField}" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid width="400" columnClasses="rightText,leftText"
+					columns="2" styleClass="panel0" rendered="#{stats.statType eq 1}">
+					<h:outputText value="#{msg.WSTAT_ROW}" styleClass="text11" />
+					<h:selectOneMenu value="#{stats.fieldRow}">
+						<f:selectItems value="#{stats.selectField}" />
+					</h:selectOneMenu>
+					<h:outputText value="#{msg.WSTAT_COLUMN}" styleClass="text11" />
+					<h:selectOneMenu value="#{stats.fieldColumn}">
+						<f:selectItems value="#{stats.selectField}" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							action="#{stats.onCancelOptions}" reRender="statsForm"
+							onclick="#{rich:component('modalPanelOptions')}.hide();" />
+						<rich:spacer width="5" />
+						<h:commandButton value="#{msg.WSTAT_GENERATE}"
+							action="#{stats.onGenerateStat}"
+							onclick="submit(); if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelOptions')}.hide();">
+							<a4j:support event="oncomplete" reRender="statsForm, optionsForm" />
+						</h:commandButton>
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+
+		</rich:modalPanel>
+
+
+
+
+
+
+		<h:form id="statsForm">
+
+			<rich:panel style="width=100%"
+				rendered="#{not empty facesContext.maximumSeverity}">
+				<h:panelGroup>
+					<h:messages showDetail="true" infoClass="hmsg_info"
+						warnClass="hmsg_error" errorClass="hmsg_error" />
+				</h:panelGroup>
+			</rich:panel>
+
+
+
+			<rich:panel style="width=100%" id="panelConsult"
+				rendered="#{stats.status eq 0}">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WSTAT_CONSULT}" />
+				</f:facet>
+
+				<h:panelGrid id="panelDate" columns="4"
+					columnClasses="rightText,leftText,rightText,leftText" width="500">
+
+					<h:outputText value="#{msg.WSTAT_INIDATE}" styleClass="text11" />
+					<rich:calendar value="#{stats.iniDate}" locale="es" popup="true"
+						datePattern="d/M/yyyy HH:mm" showApplyButton="true"
+						cellWidth="24px" cellHeight="22px" style="width:200px"
+						zindex="2000" />
+					<h:outputText value="#{msg.WSTAT_ENDDATE}" styleClass="text11" />
+					<rich:calendar value="#{stats.endDate}" locale="es" popup="true"
+						datePattern="d/M/yyyy HH:mm" showApplyButton="true"
+						cellWidth="24px" cellHeight="22px" style="width:200px"
+						zindex="2000" />
+				</h:panelGrid>
+				<rich:spacer height="10" />
+
+				<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+					<h:outputText value="#{msg.WSTAT_RES}" width="100%" />
+				</h:panelGrid>
+
+				<h:panelGrid id="panelRestrictions" columns="1"
+					columnClasses="centerText" styleClass="panel0" width="100%">
+
+					<rich:scrollableDataTable id="restrictionsListId" var="restriction"
+						value="#{stats.restrictions}" binding="#{stats.restrictionTable}"
+						first="0" rows="0" frozenColCount="3" rowKeyVar="rkv"
+						height="190px" width="913px" sortMode="single"
+						hideWhenScrolling="false" selectionMode="single"
+						selection="#{stats.restrictionSelected}" cellpadding="1"
+						cellspacing="1">
+
+						<rich:column width="100px">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WSTAT_JOIN}" />
+							</f:facet>
+
+							<h:outputText value="#{msg.WSTAT_AND}"
+								rendered="#{restriction.restrictionUnion eq 'and'}" />
+							<h:outputText value="#{msg.WSTAT_OR}"
+								rendered="#{restriction.restrictionUnion eq 'or'}" />
+
+
+						</rich:column>
+						<rich:column width="250px">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WSTAT_FIELD}" />
+							</f:facet>
+							<h:outputText value="#{msg.WSTAT_SERVICEID}"
+								rendered="#{restriction.fieldType eq 0}" />
+							<h:outputText value="#{msg.WSTAT_APP}"
+								rendered="#{restriction.fieldType eq 1}" />
+							<h:outputText value="#{msg.WSTAT_UO}"
+								rendered="#{restriction.fieldType eq 2}" />
+							<h:outputText value="#{msg.WSTAT_REPORT}"
+								rendered="#{restriction.fieldType eq 3}" />
+							<h:outputText value="#{msg.WSTAT_CODRES}"
+								rendered="#{restriction.fieldType eq 4}" />
+
+						</rich:column>
+						<rich:column width="100px">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="Comparador" />
+							</f:facet>
+							<h:outputText value="#{msg.WSTAT_EQUAL}"
+								rendered="#{restriction.fieldOperation eq '='}" />
+							<h:outputText value="#{msg.WSTAT_DIST}"
+								rendered="#{restriction.fieldOperation eq '!='}" />
+							<h:outputText value="#{msg.WSTAT_LIKE}"
+								rendered="#{restriction.fieldOperation eq 'like'}" />
+						</rich:column>
+						<rich:column width="400px">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WSTAT_VALUE}" />
+							</f:facet>
+							<h:outputText value="#{restriction.valueDescription}" />
+						</rich:column>
+
+						<a4j:support event="onRowClick"
+							actionListener="#{stats.onSelectRestriction}"
+							reRender="statsForm" />
+
+
+					</rich:scrollableDataTable>
+
+
+					<h:panelGrid cellpadding="2" cellspacing="2"
+						columnClasses="centerText" columns="1" width="100%"
+						styleClass="panel0">
+
+						<h:panelGroup id="panelRestrictionControl">
+							<h:outputText value="#{msg.WSTAT_JOIN} " styleClass="text11"
+								rendered="#{stats.editUnion}" />
+							<h:selectOneMenu id="inputUnionType"
+								value="#{stats.editRestrictionRestrictionUnion}"
+								rendered="#{stats.editUnion}">
+								<f:selectItems value="#{stats.selectUnion}" />
+							</h:selectOneMenu>
+
+							<h:outputText value="  #{msg.WSTAT_FIELD} " styleClass="text11" />
+							<h:selectOneMenu id="inputFieldType"
+								value="#{stats.editRestrictionFieldType}">
+								<f:selectItems value="#{stats.selectField}" />
+								<f:converter converterId="javax.faces.Integer" />
+
+								<a4j:support event="onchange" reRender="panelRestrictionControl" />
+							</h:selectOneMenu>
+
+							<h:outputText value="  #{msg.WSTAT_COMP} " styleClass="text11" />
+							<h:selectOneMenu id="inputOperationType"
+								value="#{stats.editRestrictionFieldOperation}">
+								<f:selectItems value="#{stats.selectOperation}" />
+							</h:selectOneMenu>
+
+							<h:outputText value="  #{msg.WSTAT_VALUE} " styleClass="text11" />
+							<h:inputText id="inputValueApp"
+								value="#{stats.editRestrictionFieldValue}" immediate="true"
+								size="60" rendered="#{stats.editRestrictionFieldType eq 1}"/>
+							<h:inputText id="inputValueUO"
+								value="#{stats.editRestrictionFieldValue}" immediate="true"
+								size="60" rendered="#{stats.editRestrictionFieldType eq 2}"/>
+							<h:selectOneMenu id="inputValueServices"
+								value="#{stats.editRestrictionFieldValue}" rendered="#{stats.editRestrictionFieldType eq 0}">
+								<f:selectItems value="#{stats.selectServices}" />
+							</h:selectOneMenu>
+							<h:selectOneMenu id="inputValueFirma"
+								value="#{stats.editRestrictionFieldValue}" rendered="#{stats.editRestrictionFieldType eq 3}">
+								<f:selectItems value="#{stats.selectSignature}" />
+							</h:selectOneMenu>
+							<h:selectOneMenu id="inputValueCodRes"
+								value="#{stats.editRestrictionFieldValue}" rendered="#{stats.editRestrictionFieldType eq 4}">
+								<f:selectItems value="#{stats.selectErrorCode}" />
+							</h:selectOneMenu>
+						</h:panelGroup>
+
+
+
+
+						<h:panelGroup>
+							<h:commandButton id="addRestriction" value="#{msg.WGLOBAL_ADD}"
+								rendered="true" action="#{stats.onAddRestriction}" type="submit"
+								immediate="false"
+								reRender="panelResult, panelConsult, statsForm" />
+							<rich:spacer width="15" />
+							<h:commandButton id="modRestriction" value="#{msg.WGLOBAL_MODIFY}"
+								rendered="true" action="#{stats.onModifyRestriction}"
+								type="submit" immediate="false"
+								reRender="panelResult, panelConsult, statsForm" />
+							<rich:spacer width="15" rendered="true" />
+							<h:commandButton id="delRestriction" value="#{msg.WGLOBAL_DELETE}"
+								rendered="true" action="#{stats.onDelRestriction}" type="submit"
+								immediate="false"
+								reRender="panelResult, panelConsult, statsForm" />
+						</h:panelGroup>
+					</h:panelGrid>
+				</h:panelGrid>
+				<br />
+
+				<a4j:commandButton value="#{msg.WGLOBAL_NEXT}" id="buttonNext"
+					action="#{stats.onNext}" type="submit"
+					reRender="panelResult, panelConsult, statsForm"
+					oncomplete="if (#{facesContext.maximumSeverity==null}) Richfaces.showModalPanel('modalPanelOptions',{width:450, top:150})" />
+			</rich:panel>
+
+
+			<rich:panel style="width=100%" id="panelResult"
+				rendered="#{stats.status ge 2}">
+				<f:facet name="header">
+					<h:outputText value="Resultados" />
+				</f:facet>
+
+				<h:panelGrid cellpadding="2" cellspacing="2"
+					columnClasses="centerText" columns="1" width="100%">
+
+
+					<h:panelGrid id="resultAgrup" rendered="#{stats.statType eq 0}"
+						columnClasses="centerText" columns="2" width="100%">
+
+						<rich:scrollableDataTable id="resultAgrupList" var="statData"
+							value="#{stats.statDataList}" first="0" rows="0" height="390px"
+							width="400px" sortMode="single" hideWhenScrolling="false"
+							selectionMode="single" cellpadding="1" cellspacing="1"
+							styleClass="centerText">
+
+							<rich:column sortExpression="#{statData.key}" width="250px">
+								<f:facet name="header">
+								<h:panelGroup>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_SERVICEID}"  rendered="#{stats.fieldAgrup eq 0}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_APP}"  rendered="#{stats.fieldAgrup eq 1}" />
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_UO}"  rendered="#{stats.fieldAgrup eq 2}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_REPORT}"  rendered="#{stats.fieldAgrup eq 3}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_CODRES}"  rendered="#{stats.fieldAgrup eq 4}"/>
+								</h:panelGroup>
+								</f:facet>
+								<h:outputText value="#{statData.key}" />
+							</rich:column>
+
+							<rich:column sortExpression="#{statData.value}" width="100px">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_NUMBER}" />
+								</f:facet>
+								<h:outputText value="#{statData.value}" />
+							</rich:column>
+
+
+						</rich:scrollableDataTable>
+
+						<a4j:mediaOutput element="img" cacheable="false" session="true"
+							createContent="#{stats.generatePieChart}" mimeType="image/jpeg" />
+
+
+
+
+
+					</h:panelGrid>
+
+
+
+					<h:panelGrid id="resultTabular" width="100%"
+						columnClasses="centerText" rendered="#{stats.statType ne 0}">
+
+						<rich:scrollableDataTable id="resultTabularList" var="statData"
+							value="#{stats.statDataTabularList}" first="0" rows="0"
+							height="390px" width="700px" sortMode="single"
+							hideWhenScrolling="false" selectionMode="single" cellpadding="1"
+							cellspacing="1" styleClass="centerText">
+
+							<rich:column sortExpression="#{statData.rowName}" width="290px">
+								<f:facet name="header"> <h:panelGroup>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_SERVICEID}"  rendered="#{stats.fieldRow eq 0}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_APP}"  rendered="#{stats.fieldRow eq 1}" />
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_UO}"  rendered="#{stats.fieldRow eq 2}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_REPORT}"  rendered="#{stats.fieldRow eq 3}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_CODRES}"  rendered="#{stats.fieldRow eq 4}"/>
+									</h:panelGroup>
+								</f:facet>  
+								<h:outputText value="#{statData.rowName}" />
+							</rich:column>
+
+							<rich:column sortExpression="#{statData.columnName}"
+								width="290px">
+								<f:facet name="header"><h:panelGroup>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_SERVICEID}"  rendered="#{stats.fieldColumn eq 0}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_APP}"  rendered="#{stats.fieldColumn eq 1}" />
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_UO}"  rendered="#{stats.fieldColumn eq 2}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_REPORT}"  rendered="#{stats.fieldColumn eq 3}"/>
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_CODRES}"  rendered="#{stats.fieldColumn eq 4}"/>
+									</h:panelGroup>
+								</f:facet>
+								<h:outputText value="#{statData.columnName}" />
+							</rich:column>
+							<rich:column sortExpression="#{statData.value}" width="100px">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText" value="#{msg.WSTAT_NUMBER}" />
+								</f:facet>
+								<h:outputText value="#{statData.value}" />
+							</rich:column>
+						</rich:scrollableDataTable>
+					</h:panelGrid>
+
+
+
+
+					<h:panelGroup>
+
+						<a4j:commandButton value="#{msg.WSTAT_NEW}"
+							action="#{stats.onNew}" type="submit"
+							reRender="panelResult, panelConsult, statsForm" />
+						<rich:spacer width="15" />
+
+						<h:commandButton value="#{msg.WSTAT_EXPORTXLS}"
+							action="#{stats.exportReportToExcel}" type="submit" />
+						<rich:spacer width="15" />
+
+						<h:commandButton value="#{msg.WSTAT_EXPORTPDF}"
+							action="#{stats.exportReportToPDF}" type="submit" />
+
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</rich:panel>
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

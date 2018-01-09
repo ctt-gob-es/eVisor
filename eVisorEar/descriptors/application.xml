@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+	<display-name>eVisorEar</display-name>
+	<initialize-in-order>true</initialize-in-order>
+	<module id="EVisorPersistence">
+		<ejb>eVisorPersistence-3.0.0.jar</ejb>
+	</module>
+	<module id="EVisorCore">
+		<ejb>eVisorCore-3.0.0.jar</ejb>
+	</module>
+	<module id="EVisorCore">
+		<ejb>eVisorToPdfWSClient-3.0.0.jar</ejb>
+	</module>
+	<module id="EVisorWeb">
+		<web>
+			<web-uri>eVisorWeb-3.0.0.war</web-uri>
+			<context-root>/eVisor</context-root>
+		</web>
+	</module>
+</application>

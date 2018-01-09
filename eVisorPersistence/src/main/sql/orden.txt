@@ -1,0 +1,13 @@
+Script execution order:
+
+1) createTableSpace.sql
+	(User: SYS)
+
+2) createTables.sql
+	(User: EVISOROWNER)
+
+3) createSequences.sql
+	(User: EVISOROWNER)
+
+4) inserDatas.sql
+	(User: EVISOROWNER)

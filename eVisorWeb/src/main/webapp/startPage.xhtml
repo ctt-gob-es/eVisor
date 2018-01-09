@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators" 
+	template="/template_ini.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+
+		
+	<body onload="Richfaces.showModalPanel('modalstart',{width:460, top:200});"/>		
+		
+
+	
+
+
+	<rich:modalPanel id="modalstart" resizeable="false" autosized="true" zindex="2000">
+	<f:facet name="header">
+		<h:outputText value="#{msg.WTITLE_START}" />
+	</f:facet>
+
+	<h:form id="loginForm">
+		
+		<h:panelGrid columns="3" cellpadding="2" cellspacing="2" width="100%" columnClasses="centerText,centerText,centerText">
+			
+			
+				<a4j:htmlCommandLink rendered="true" immediate="true" action="templates">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/templatesboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_TEMPLATES}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="apps">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/applicationsboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_APPS}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="afirma">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/afirmaboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_AFIRMA}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="keystores">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/keystoresboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_KEYSTORES}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="alarms">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/alarmsboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_ALARMS}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="log">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/logboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_LOG}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="stats">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/statsboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_STATS}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+	        	
+	        	<a4j:htmlCommandLink rendered="true" immediate="true" action="users">
+	          		<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+	            		<h:graphicImage value="/img/usersboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_USERS}" styleClass="text11" />
+	          		</h:panelGrid>
+	        	</a4j:htmlCommandLink>
+				
+				<a4j:htmlCommandLink rendered="true" immediate="true" action="#{userManager.logout}">
+					<h:panelGrid rendered="true" cellpadding="2" styleClass="botonStart" cellspacing="2" columnClasses="centerText" columns="1" width="140">
+						<h:graphicImage value="/img/logoutboton.png" style="border-style: none;" />
+	            		<h:outputText value="#{msg.WGLOBAL_LOGOUT}" styleClass="text11" />
+					</h:panelGrid>
+				</a4j:htmlCommandLink>
+			
+		</h:panelGrid>
+
+	</h:form>
+
+	</rich:modalPanel>
+		
+		
+		
+	</ui:define>
+</ui:composition>
+
+

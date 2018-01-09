@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.FieldPOJO"/>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.EventLogPOJO"/>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.TraceTransactionPOJO">
+		<attributes>
+			<id name="tracePk">
+				<column name="T_TRACE_PK"/>
+				<generated-value strategy="SEQUENCE" generator="T_TRACE_SEQ_GEN"/>
+				<sequence-generator name="T_TRACE_SEQ_GEN" sequence-name="T_TRACE_SEQ" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.ActionTypePOJO"/>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.TraceFieldPOJO">
+		<attributes>
+			<id name="traceFieldPk">
+				<column name="T_TRACEFIELD_PK"/>
+				<generated-value strategy="SEQUENCE" generator="T_TRACEFIELD_SEQ_GEN"/>
+				<sequence-generator name="T_TRACEFIELD_SEQ_GEN" sequence-name="T_TRACEFIELD_SEQ" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.TransactionPOJO"/>
+	<entity class="es.gob.signaturereport.persistence.maudit.model.pojo.ServicesPOJO"/>
+</entity-mappings>

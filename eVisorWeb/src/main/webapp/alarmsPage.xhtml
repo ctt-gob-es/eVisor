@@ -1,0 +1,208 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+
+		<h:form id="alarmsForm">
+
+			<rich:panel style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WTITLE_ALARMS}" />
+				</f:facet>
+
+				<h:panelGrid id="panelContent" columns="2"
+					columnClasses="left-top,left-top" width="100%">
+
+					<h:panelGrid id="panelList" columns="1" width="220px">
+
+						<rich:scrollableDataTable height="400px" selectionMode="single"
+							width="100%" id="alarmsListId" rows="0"
+							columnClasses="centerText" value="#{alarms.alarmsList}" var="al"
+							sortMode="single" selection="#{alarms.alarmSelected}"
+							frozenColCount="1">
+
+
+
+							<rich:column sortExpression="#{al.alarmId}">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText" value="#{msg.WALARM_ID}" />
+								</f:facet>
+
+								<h:outputText value="#{al.alarmId}" />
+
+							</rich:column>
+
+							<rich:column sortExpression="#{al.description}">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText" value="#{msg.WALARM_DESC}" />
+								</f:facet>
+
+								<h:outputText value="#{al.description}" />
+
+							</rich:column>
+
+
+							<a4j:support event="onRowClick"
+								action="#{alarms.onClickAlarmList}" reRender="panelDataAlarm">
+								<f:param name="param1" value="#{al.alarmId}" />
+							</a4j:support>
+						</rich:scrollableDataTable>
+					</h:panelGrid>
+
+
+
+
+					<h:panelGrid id="panelDataAlarm" columns="1" width="690">
+						<rich:panel style="width=100%"
+							rendered="#{not empty facesContext.maximumSeverity}">
+							<h:panelGroup>
+								<h:messages showDetail="true" infoClass="hmsg_info"
+									warnClass="hmsg_error" errorClass="hmsg_error" />
+							</h:panelGroup>
+						</rich:panel>
+
+						<rich:panel id="panelHelp" style="width=100%"
+							rendered="#{alarms.status eq 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WALARM_INF}" />
+							</f:facet>
+							<h:panelGrid columns="2" columnClasses="centerText, leftText"
+								width="100%">
+								<h:graphicImage value="/img/help50.png"
+									style="border-style: none;" />
+								<h:outputText
+									value="#{msg.WALARM_HELP}" />
+							</h:panelGrid>
+						</rich:panel>
+
+
+						<rich:panel id="panelDataEdit" style="width=100%"
+							rendered="#{alarms.status ne 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WALARM_DATA}" />
+							</f:facet>
+
+							<h:panelGrid id="panelInfoAlarm" columns="1"
+								columnClasses="leftText" width="100%">
+
+
+								<h:outputText value="#{alarms.alarmEdit.identifier.alarmId}"
+									styleClass="text11b" />
+								<h:outputText value="#{alarms.alarmEdit.identifier.description}" />
+								<rich:spacer height="10" />
+								<h:panelGrid id="panelInfo1" columns="2"
+									columnClasses="rightText, leftText" width="100%"
+									styleClass="panel0">
+
+									<h:outputText value="#{msg.WALARM_BLO}" styleClass="text11" />
+									<h:selectBooleanCheckbox value="#{alarms.alarmEdit.lock}" />
+
+									<h:outputText value="#{msg.WALARM_MINUTES}" styleClass="text11" />
+
+									<rich:inputNumberSpinner
+										value="#{alarms.alarmEdit.standbyPeriod}"
+										maxValue="9999999999" minValue="0" />
+								</h:panelGrid>
+								<rich:spacer height="10" />
+
+								<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+									<h:outputText value="#{msg.WALARM_LIST}" width="100%" />
+								</h:panelGrid>
+
+								<h:panelGrid id="panelInfo2" columns="1"
+									columnClasses="leftText" width="100%" styleClass="panel0">
+									<rich:scrollableDataTable height="139px" selectionMode="single"
+										width="100%" id="destListId" rows="0"
+										columnClasses="centerText"
+										value="#{alarms.alarmEdit.receivers}" var="rec"
+										sortMode="single" selection="#{alarms.recSelected}"
+										frozenColCount="1" binding="#{alarms.recTable}">
+
+										<rich:column sortExpression="#{rec}" width="450">
+											<f:facet name="header">
+												<h:outputText styleClass="centerText" value="#{msg.WALARM_DESTS}" />
+											</f:facet>
+
+											<h:outputText value="#{rec}" />
+
+										</rich:column>
+
+										<a4j:support event="onRowClick"
+											action="#{alarms.onClickRecList}" reRender="panelDataAlarm">
+											<f:param name="param1" value="#{rec}" />
+										</a4j:support>
+									</rich:scrollableDataTable>
+
+
+									<h:panelGrid columns="2" columnClasses="rightText, leftText"
+										width="100%">
+
+
+										<h:outputText value="#{msg.WALARM_DEST}" styleClass="text11" />
+										<h:inputText id="inputDest" value="#{alarms.recEdit}"
+											size="60" />
+
+									</h:panelGrid>
+								</h:panelGrid>
+
+
+								<h:panelGrid id="panelButtonsEdit" cellpadding="2"
+									styleClass="panel0" cellspacing="2" columnClasses="rightText"
+									columns="1" width="100%">
+
+
+									<h:panelGroup>
+										<a4j:commandButton id="buttonAdd" value="#{msg.WALARM_ADDDEST}"
+											styleClass="boton" action="#{alarms.onAddRec}" type="submit"
+											reRender="panelDataAlarm" />
+
+										<rich:spacer width="5" />
+										<a4j:commandButton id="buttonDel"
+											value="#{msg.WALARM_DELDEST}"
+											action="#{alarms.onDelRec}" type="submit"
+											reRender="panelDataAlarm" />
+										<rich:spacer width="5" />
+										<a4j:commandButton id="buttonMod" value="#{msg.WALARM_MOD}"
+											styleClass="boton" action="#{alarms.onModifyAlarm}"
+											type="submit" reRender="panelDataAlarm" />
+
+									</h:panelGroup>
+
+								</h:panelGrid>
+
+
+
+
+							</h:panelGrid>
+
+
+
+						</rich:panel>
+
+
+					</h:panelGrid>
+
+
+				</h:panelGrid>
+
+
+
+			</rich:panel>
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+

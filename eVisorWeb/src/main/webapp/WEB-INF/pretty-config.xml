@@ -1,0 +1,61 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.1.0" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.1.0
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.1.0.xsd">
+
+   <!-- Begin RewriteRules -->
+   
+
+   <!-- Begin UrlMappings -->
+  
+  	<url-mapping id="home"> 
+		<pattern value="/" /> 
+		<view-id>/loginPage.jsf</view-id>
+	</url-mapping>
+
+	<url-mapping id="login">
+		<pattern value="/login/" />
+		<view-id>/loginPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="templates">
+		<pattern value="/templates/" />
+		<view-id>/templatesPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="apps">
+		<pattern value="/apps/" />
+		<view-id>/appsPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="afirma">
+		<pattern value="/afirma/" />
+		<view-id>/afirmaPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="keystores">
+		<pattern value="/keystores/" />
+		<view-id>/keystoresPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="alarms">
+		<pattern value="/alarms/" />
+		<view-id>/alarmsPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="users">
+		<pattern value="/users/" />
+		<view-id>/usersPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="log">
+		<pattern value="/log/" />
+		<view-id>/logPage.jsf</view-id> 
+	</url-mapping>
+	
+	<url-mapping id="stats">
+		<pattern value="/stats/" />
+		<view-id>/statsPage.jsf</view-id> 
+	</url-mapping>
+
+</pretty-config>

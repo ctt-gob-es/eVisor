@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+  version="1.2">
+
+	<application>
+		<view-handler>
+      		com.sun.facelets.FaceletViewHandler
+    	</view-handler>
+    	<view-handler>
+    		org.ajax4jsf.application.AjaxViewHandler
+    	</view-handler>
+		<locale-config>
+			<default-locale>es</default-locale>
+			<supported-locale>es</supported-locale>
+			<supported-locale>en</supported-locale>
+		</locale-config>
+		<message-bundle>
+			message-content.WebMessages
+		</message-bundle>
+	</application>
+	
+
+	<lifecycle>
+		<phase-listener>es.gob.signaturereport.controller.authentication.AuthenticationPhaseListener</phase-listener>
+	</lifecycle>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/loginPage.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>start</from-outcome>
+			<to-view-id>/startPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+
+		<navigation-case>
+			<from-outcome>users</from-outcome>
+			<to-view-id>/usersPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		
+		<navigation-case>
+			<from-outcome>afirma</from-outcome>
+			<to-view-id>/afirmaPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>alarms</from-outcome>
+			<to-view-id>/alarmsPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>apps</from-outcome>
+			<to-view-id>/appsPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/errorPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>keystores</from-outcome>
+			<to-view-id>/keystoresPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>templates</from-outcome>
+			<to-view-id>/templatesPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>log</from-outcome>
+			<to-view-id>/logPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>stats</from-outcome>
+			<to-view-id>/statsPage.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		
+	</navigation-rule>
+	
+	<!-- <managed-bean>
+		<managed-bean-name>usermanager</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.authentication.UserManager</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean> -->
+	
+	
+	<!-- <managed-bean>
+		<managed-bean-name>users</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.UsersController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>error</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.ErrorController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>afirma</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.AfirmaController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>alarms</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.AlarmsController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>apps</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.AppsController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>keystores</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.KeystoresController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>templates</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.TemplatesController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>log</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.LogController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>stats</managed-bean-name>
+		<managed-bean-class>es.gob.signaturereport.controller.StatsController</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean> -->
+	
+	
+
+</faces-config>

@@ -1,0 +1,649 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+		<rich:modalPanel id="modalPanelPersons" autosized="true" zindex="2000"
+			onhide="reRenderData();">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WPERSON_PERSONS}" />
+			</f:facet>
+			<h:form id="formPersonsList">
+				<a4j:jsFunction name="reRenderData" reRender="panelPerson" />
+				<h:messages showDetail="true" infoClass="minihmsg_info"
+					warnClass="minihmsg_error" errorClass="minihmsg_error" />
+
+				<h:panelGrid rendered="#{apps.statusPerson eq 0}" width="100%"
+					columnClasses="centerText" columns="1" styleClass="panel0">
+
+
+
+					<rich:scrollableDataTable id="personListId" var="per"
+						value="#{apps.personsList}" binding="#{apps.personTable}"
+						first="0" rows="0" frozenColCount="3" rowKeyVar="rkv"
+						height="280px" width="440px" sortMode="single"
+						hideWhenScrolling="false" selectionMode="single"
+						selection="#{apps.personSelected}" cellpadding="1" cellspacing="1">
+
+						<rich:column sortExpression="#{per.name}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_NAME}" />
+							</f:facet>
+							<h:outputText value="#{per.name}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.surname}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_SURNAME}" />
+							</f:facet>
+							<h:outputText value="#{per.surname}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.email}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_EMAIL}" />
+							</f:facet>
+							<h:outputText value="#{per.email}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.phone}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_PHONE}" />
+							</f:facet>
+							<h:outputText value="#{per.phone}" />
+						</rich:column>
+
+					</rich:scrollableDataTable>
+				</h:panelGrid>
+
+
+				<h:panelGrid width="100%" columnClasses="centerText" columns="2"
+					styleClass="panel0" rendered="#{apps.statusPerson ne 0}">
+
+					<h:outputText value="#{msg.WPERSON_NAME}" styleClass="text11" />
+					<h:inputText value="#{apps.personEdit.name}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_SURNAME}" styleClass="text11" />
+					<h:inputText value="#{apps.personEdit.surname}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_PHONE}" styleClass="text11" />
+					<h:inputText value="#{apps.personEdit.phone}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_EMAIL}" styleClass="text11" />
+					<h:inputText value="#{apps.personEdit.email}" readonly="false"
+						size="60" />
+
+				</h:panelGrid>
+
+				<rich:spacer height="15" />
+
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1"
+					rendered="#{apps.statusPerson eq 0}">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_ASIGN}"
+							id="buttonAssignPerson" action="#{apps.onAssignPerson}"
+							type="submit" reRender="formPersonsList"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();">
+						</a4j:commandButton>
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_EDIT}"
+							id="buttonEditPerson" action="#{apps.onStartModifyPerson}"
+							type="submit" reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_DELETE}"
+							id="buttonDelPerson" action="#{apps.onDelPerson}"
+							type="submit" reRender="formPersonsList">
+						</a4j:commandButton>
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WPERSON_NEW}"
+							action="#{apps.onStartNewPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelPersons')" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<h:panelGrid width="100%" rendered="#{apps.statusPerson eq 1}"
+					styleClass="panel0" columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_MODANDASIGN}" type="submit"
+							action="#{apps.onAceptModifyPersonAndAssign}"
+							onclick="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_MODIFY}"
+							action="#{apps.onAceptModifyPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							reRender="formPersonsList" type="submit"
+							action="#{apps.onCancelActionPerson}" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<h:panelGrid width="100%" rendered="#{apps.statusPerson eq 2}"
+					styleClass="panel0" columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_ADDANDASIGN}" type="submit"
+							action="#{apps.onAceptNewPersonAndAssign}"
+							onclick="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WPERSON_ADD}"
+							action="#{apps.onAceptNewPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}" type="submit"
+							action="#{apps.onCancelActionPerson}" reRender="formPersonsList" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</h:form>
+		</rich:modalPanel>
+
+
+
+		<rich:modalPanel id="modalPanelDeleteUO" resizeable="false"
+			autosized="true" zindex="2000">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WAPPS_DELUO}" />
+			</f:facet>
+			<h:form id="formDeleteUO">
+				<h:panelGrid width="100%" columnClasses="centerText" columns="1"
+					styleClass="panel0">
+					<h:outputText
+						value="#{msg.WAPPS_INFO0} '#{apps.st_ini}#{apps.st_end}'"
+						styleClass="text11" />
+					<h:outputText
+						value="#{msg.WAPPS_INFO1}"
+						styleClass="text11b" />
+					<rich:spacer height="10" />
+					<h:outputText
+						value="#{msg.WAPPS_INFO2}"
+						styleClass="text11" />
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelDeleteUO')" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WAPPS_DELUO}"
+							action="#{apps.onDeleteUO}" type="submit"
+							oncomplete="#{rich:component('modalPanelDeleteUO')}.hide()"
+							reRender="applicationsForm" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+		</rich:modalPanel>
+
+		<rich:modalPanel id="modalPanelDeleteApp" resizeable="false"
+			autosized="true" zindex="2000">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WAPPS_DELAPP}" />
+			</f:facet>
+			<h:form id="formDeleteApp">
+				<h:panelGrid width="100%" columnClasses="centerText" columns="1"
+					styleClass="panel0">
+					<rich:spacer height="10" />
+					<h:outputText
+						value="#{msg.WAPPS_INFO3} '#{apps.st_ini}#{apps.st_end}'"
+						styleClass="text11" />
+
+					<rich:spacer height="10" />
+					<h:outputText value="#{msg.WAPPS_INFO4}"
+						styleClass="text11" />
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelDeleteApp')" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WAPPS_DELAPP}"
+							action="#{apps.onDeleteApp}" type="submit"
+							oncomplete="#{rich:component('modalPanelDeleteApp')}.hide()"
+							reRender="applicationsForm" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+		</rich:modalPanel>
+
+
+
+
+
+
+		<h:form id="applicationsForm">
+
+
+			<rich:panel style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WTITLE_APPS}" />
+				</f:facet>
+
+
+
+				<h:panelGrid id="panelContent" columns="2"
+					columnClasses="left-top,left-top" width="100%">
+
+
+
+					<h:panelGrid id="panelTree" columns="1" width="220px">
+
+
+						<rich:panel style="scrollTree">
+							<rich:tree value="#{apps.realRoot}"
+								nodeSelectListener="#{apps.selectionTreeListener}" var="node"
+								reRender="panelContent, modalPanelDeleteUO, modalPanelDeleteApp"
+								ajaxSubmitSelection="true" nodeFace="#{node.type}"
+								styleClass="scrollTree2">
+
+								<rich:treeNode type="root">
+									<h:outputText value="#{node.text}" />
+									<f:param name="idroot" value="#{node.id}" />
+								</rich:treeNode>
+
+								<rich:treeNode type="uo" icon="/img/tree/uo.png"
+									iconLeaf="/img/tree/uo.png">
+									<h:outputText value="#{node.text}" />
+									<f:param name="iduo" value="#{node.id}" />
+								</rich:treeNode>
+
+								<rich:treeNode type="app" iconLeaf="/img/tree/app.png"
+									icon="/images/tree/app.png">
+									<h:outputText value="#{node.text}" />
+									<f:param name="idapp" value="#{node.id}" />
+								</rich:treeNode>
+							</rich:tree>
+						</rich:panel>
+
+
+
+
+					</h:panelGrid>
+
+					<h:panelGrid id="panelDataApps" columns="1" width="690">
+
+
+						<rich:panel style="width=100%"
+							rendered="#{not empty facesContext.maximumSeverity}">
+							<h:panelGroup>
+								<h:messages showDetail="true" infoClass="hmsg_info"
+									warnClass="hmsg_error" errorClass="hmsg_error" />
+							</h:panelGroup>
+						</rich:panel>
+
+						<rich:panel id="panelHelp" style="width=100%"
+							rendered="#{apps.status eq 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WAPPS_INF}" />
+							</f:facet>
+							<h:panelGrid columns="2" columnClasses="centerText, leftText"
+								width="100%">
+								<h:graphicImage value="/img/help50.png"
+									style="border-style: none;" />
+								<h:panelGroup>
+
+									<h:outputText
+										value="#{msg.WAPPS_HELP1} " />
+									<h:commandButton id="newUoButtonRoot"
+										value="#{msg.WAPPS_NEWUO}" styleClass="boton"
+										rendered="true" action="#{apps.onNewUo}" type="submit"
+										immediate="false" />
+
+									<h:outputText
+										value=" #{msg.WAPPS_HELP2} " />
+									<h:commandButton id="newAppButtonRoot" value="#{msg.WAPPS_NEWAPP}"
+										styleClass="boton" rendered="true" action="#{apps.onNewApp}"
+										type="submit" immediate="false" />
+									<h:outputText
+										value=" #{msg.WAPPS_HELP3}" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</rich:panel>
+
+						<rich:panel id="panelDataUo" style="width=100%"
+							rendered="#{(apps.status eq 1) or (apps.status eq 2)}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WAPPS_UO}" />
+							</f:facet>
+
+
+							<h:panelGrid id="panelFieldsUO" columns="2"
+								columnClasses="rightText, leftText" width="100%">
+
+
+								<h:outputText value="#{msg.WAPPS_UOID}"
+									styleClass="text11" />
+
+								<h:panelGroup>
+									<h:outputText value="#{apps.st_ini}" styleClass="text11b" />
+									<h:inputText id="inputUOId" value="#{apps.st_end}"
+										readonly="#{apps.status ne 2}" immediate="true" size="40" />
+								</h:panelGroup>
+
+								<h:outputText value="#{msg.WAPPS_UONAME}"
+									styleClass="text11" />
+								<h:inputText id="inputUOName" value="#{apps.uoEdit.unitName}"
+									readonly="false" immediate="true" size="60" />
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+
+							<h:panelGrid id="panelButtonsUoEdit" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="centerText"
+								columns="1" width="100%" rendered="#{apps.status eq 1}">
+								<h:panelGroup>
+									<h:commandButton id="newUoButton"
+										value="#{msg.WAPPS_NEWUO}" styleClass="boton"
+										rendered="true" action="#{apps.onNewUo}" type="submit"
+										immediate="false" />
+									<rich:spacer width="5" />
+									<h:commandButton id="newAppButton" value="#{msg.WAPPS_NEWAPP}"
+										styleClass="boton" rendered="true" action="#{apps.onNewApp}"
+										type="submit" immediate="false" />
+									<rich:spacer width="5" />
+									<a4j:commandButton id="buttonModUo" value="#{msg.WGLOBAL_MODIFY}"
+										styleClass="boton" action="#{apps.onModUo}" type="submit"
+										reRender="panelContent" />
+									<rich:spacer width="5" />
+									<a4j:commandButton id="buttonDeleteUo" value="#{msg.WGLOBAL_DELETE}"
+										styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelDeleteUO',{width:450, top:170})"
+										type="submit" reRender="panelContent formDeleteUo" />
+								</h:panelGroup>
+							</h:panelGrid>
+
+							<h:panelGrid id="panelButtonsUoSave" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%" rendered="#{apps.status eq 2}">
+								<h:commandButton id="newUoButtonAcept"
+									value="#{msg.WGLOBAL_SAVE}" styleClass="boton" rendered="true"
+									action="#{apps.onNewUoAcept}" type="submit" immediate="false" />
+							</h:panelGrid>
+						</rich:panel>
+
+						<rich:panel id="panelDataApp" style="width=100%"
+							rendered="#{(apps.status eq 3) or (apps.status eq 4)}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WAPPS_APP}" />
+							</f:facet>
+
+
+							<h:panelGrid id="panelFieldsApp" columns="2"
+								columnClasses="rightText, leftText" width="100%">
+
+
+								<h:outputText value="#{msg.WAPPS_APPID}"
+									styleClass="text11" />
+
+								<h:panelGroup>
+									<h:outputText value="#{apps.st_ini}" styleClass="text11b" />
+									<h:inputText id="inputAppId" value="#{apps.st_end}"
+										readonly="#{apps.status ne 4}" immediate="true" size="40" />
+								</h:panelGroup>
+
+
+
+								<h:outputText value="#{msg.WAPPS_APPNAME}"
+									styleClass="text11" />
+								<h:inputText id="inputAppName" value="#{apps.appEdit.name}"
+									readonly="false" immediate="true" size="60" />
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WAPPS_RESP}" width="100%" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelPerson" columns="1"
+								columnClasses="centerText" styleClass="panel0" width="100%">
+
+								<h:panelGrid id="panelFieldsPerson" columns="2"
+									columnClasses="rightText, leftText" width="100%">
+
+									<h:outputText value="#{msg.WAPPS_RESPNAME}"
+										styleClass="text11" />
+									<h:inputText id="inputPersonName"
+										value="#{apps.personEdit.name}" readonly="true"
+										immediate="true" size="60" />
+
+									<h:outputText value="#{msg.WAPPS_RESPSURNAME}"
+										styleClass="text11" />
+									<h:inputText id="inputPersonSurname"
+										value="#{apps.personEdit.surname}" readonly="true"
+										immediate="true" size="60" />
+
+									<h:outputText value="#{msg.WAPPS_RESPTLF}"
+										styleClass="text11" />
+									<h:inputText id="inputPersonPhone"
+										value="#{apps.personEdit.phone}" readonly="true"
+										immediate="true" size="60" />
+
+									<h:outputText value="#{msg.WAPPS_RESPMAIL}" styleClass="text11" />
+									<h:inputText id="inputPersonEmail"
+										value="#{apps.personEdit.email}" readonly="true"
+										immediate="true" size="60" />
+
+								</h:panelGrid>
+
+								<a4j:commandButton value="#{msg.WUSERS_ASIGNUSER}"
+									action="#{apps.onStartSelectPerson}"
+									onclick="Richfaces.showModalPanel('modalPanelPersons',{width:450, top:100})"
+									reRender="formPersonsList" />
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WAPPS_WS}" width="100%" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelAuth" rendered="true" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="textLeft"
+								columns="1" width="100%">
+
+								<h:panelGrid id="panelAuthFields" columns="2"
+									columnClasses="rightText, leftText">
+
+									<h:outputText value="#{msg.WAPPS_TYPEWS}" styleClass="text11" />
+									<h:selectOneMenu id="inputAuthenticationType"
+										value="#{apps.appEdit.authenticationType}">
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE0}"
+											itemValue="0" />
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE1}"
+											itemValue="2" />
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE2}"
+											itemValue="1" />
+
+										<f:converter converterId="javax.faces.Integer" />
+
+										<a4j:support event="onchange" reRender="panelAuth" />
+
+									</h:selectOneMenu>
+								</h:panelGrid>
+
+								<h:panelGrid id="panelAuth1"
+									rendered="#{apps.appEdit.authenticationType ne 0}"
+									cellpadding="2" styleClass="panel0" cellspacing="2"
+									columnClasses="rightText, leftText" columns="2" width="100%">
+
+									<h:outputText value="#{msg.WLOGIN_USER}" styleClass="text11"
+										rendered="#{apps.appEdit.authenticationType eq 2}" />
+									<h:inputText id="inputAuthUser"
+										value="#{apps.appEdit.authUser}" readonly="false"
+										immediate="true" size="60"
+										rendered="#{apps.appEdit.authenticationType eq 2}" />
+
+									<h:outputText value="#{msg.WLOGIN_PASSWORD}"
+										styleClass="text11"
+										rendered="#{apps.appEdit.authenticationType eq 2}" />
+									<h:inputText id="inputAuthPass"
+										value="#{apps.appEdit.authPass}" readonly="false"
+										immediate="true" size="60"
+										rendered="#{apps.appEdit.authenticationType eq 2}" />
+
+									<h:outputText value="#{msg.WAFIRMA_CERTIFICATE}"
+										styleClass="text11"
+										rendered="#{apps.appEdit.authenticationType eq 1}" />
+
+
+									<h:selectOneMenu id="inputCert"
+										value="#{apps.appEdit.authCertAlias}" 
+										rendered="#{apps.appEdit.authenticationType eq 1}">
+										<f:selectItems value="#{apps.certsWS}"/>
+									</h:selectOneMenu>
+									
+		
+									
+									
+
+
+
+								</h:panelGrid>
+
+
+							</h:panelGrid>
+
+
+
+							<rich:spacer height="10" />
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WAPPS_TEMPS}" width="100%" />
+							</h:panelGrid>
+							<h:panelGrid id="panelTemplatesFields" columns="1"
+								columnClasses="centerText" styleClass="panel0" width="100%">
+
+								<rich:scrollableDataTable id="templatesList" var="template"
+									value="#{apps.appEdit.templates}"
+									binding="#{apps.templatesTable}" first="0" rows="0"
+									frozenColCount="3" rowKeyVar="rkv" height="120px" width="100%"
+									sortMode="single" hideWhenScrolling="false"
+									selectionMode="single" selection="#{apps.templateSelected}"
+									cellpadding="1" cellspacing="1">
+
+									<rich:column sortExpression="#{template}" width="605px">
+										<f:facet name="header">
+											<h:outputText styleClass="centerText" value="#{msg.WAPPS_TEMP}" />
+										</f:facet>
+										<h:outputText value="#{template}" />
+									</rich:column>
+
+
+								</rich:scrollableDataTable>
+								<h:panelGrid cellpadding="2" styleClass="panel0" cellspacing="2"
+									columnClasses="centerText" columns="1" width="100%">
+									<h:panelGroup>
+										<h:commandButton id="delTemplate" value="#{msg.WAPPS_DELTEMP}"
+											styleClass="boton" rendered="true"
+											action="#{apps.onRemoveTemplate}" type="submit"
+											immediate="false" reRender="panelTemplatesFields" />
+										<rich:spacer width="25" />
+
+										<rich:inplaceSelect value="#{apps.templateAdd}"
+											defaultLabel="#{msg.WAPPS_ADDTEMP}"
+											showControls="true" controlsHorizontalPosition="left"
+											controlsVerticalPosition="bottom" id="inplaceAddTemplate"
+											styleClass="text11" minSelectWidth="40" controlClass="text11">
+											<f:facet name="controls">
+												<button
+													onmousedown="#{rich:component('inplaceAddTemplate')}.save();"
+													type="button">Añadir plantilla</button>
+												<button
+													onmousedown="#{rich:component('inplaceAddTemplate')}.cancel();"
+													type="button">Cancelar</button>
+											</f:facet>
+											<f:selectItems value="#{apps.templates}" />
+											<a4j:support event="onviewactivated"
+												action="#{apps.onAddTemplate}"
+												reRender="panelTemplatesFields" />
+										</rich:inplaceSelect>
+
+
+
+									</h:panelGroup>
+								</h:panelGrid>
+							</h:panelGrid>
+
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="Plataforma @firma" width="100%" />
+							</h:panelGrid>
+
+
+							<h:panelGrid id="panelAfirmaFields" columns="2"
+								columnClasses="rightText, leftText" styleClass="panel0"
+								width="100%">
+
+								<h:outputText value="#{msg.WAPPS_AFIRMA}" styleClass="text11" />
+
+								<h:selectOneMenu id="inputAfirma"
+									value="#{apps.appEdit.platformId}">
+									<f:selectItems value="#{apps.platforms}" />
+								</h:selectOneMenu>
+								
+							</h:panelGrid>
+
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid id="panelButtonsAppSave" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%">
+								<h:panelGroup>
+									<a4j:commandButton id="newAppButtonAcept"
+										value="#{msg.WAPPS_ADD}" styleClass="boton"
+										action="#{apps.onNewAppAcept}" type="submit"
+										reRender="panelContent" rendered="#{apps.status eq 4}" />
+
+									<a4j:commandButton id="buttonDeleteApp" value="#{msg.WGLOBAL_DELETE}"
+										styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelDeleteApp',{width:450, top:170})"
+										type="submit" reRender="panelContent, formDeleteApp"
+										rendered="#{apps.status eq 3}" />
+
+									<rich:spacer width="5" rendered="#{apps.status eq 3}" />
+
+									<a4j:commandButton id="modAppButtonAcept"
+										value="#{msg.WAPPS_MODAPP}" styleClass="boton"
+										action="#{apps.onModifyAppAcept}" type="submit"
+										immediate="false" rendered="#{apps.status eq 3}"
+										reRender="panelContent" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</rich:panel>
+
+					</h:panelGrid>
+				</h:panelGrid>
+
+			</rich:panel>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+

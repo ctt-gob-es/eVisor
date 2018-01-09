@@ -1,0 +1,311 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+
+		<h:form id="afirmaForm">
+
+
+			<rich:panel style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WTITLE_AFIRMA}" />
+				</f:facet>
+
+				<h:panelGrid id="panelContent" columns="2"
+					columnClasses="left-top,left-top" width="100%">
+
+
+
+					<h:panelGrid id="panelList" columns="1" width="220px">
+
+						<h:commandButton id="newButton" value="#{msg.WAFIRMA_BALTA}"
+							styleClass="boton" rendered="true" action="#{afirma.onNewAfirma}"
+							type="submit" immediate="false" />
+
+
+
+						<rich:scrollableDataTable height="400px" selectionMode="single"
+							width="220px" id="afirmaListId" rows="0"
+							columnClasses="centerText" value="#{afirma.afirmaList}"
+							var="platform" sortMode="single"
+							selection="#{afirma.afirmaSelected}" frozenColCount="1">
+
+
+
+
+							<rich:column id="column_id" sortExpression="#{platform}" width="180">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText" value="#{msg.WAFIRMA_ID}" />
+								</f:facet>
+
+								<h:outputText value="#{platform}" />
+
+							</rich:column>
+
+
+							<a4j:support event="onRowClick"
+								actionListener="#{afirma.onClickList}"
+								reRender="panelDataAfirma">
+								<f:param name="param1" value="#{platform}" />
+							</a4j:support>
+						</rich:scrollableDataTable>
+
+
+
+
+
+					</h:panelGrid>
+
+					<h:panelGrid id="panelDataAfirma" columns="1" width="690">
+
+						<rich:panel style="width=100%"
+							rendered="#{not empty facesContext.maximumSeverity}">
+							<h:panelGroup>
+								<h:messages showDetail="true" infoClass="hmsg_info"
+									warnClass="hmsg_error" errorClass="hmsg_error" />
+							</h:panelGroup>
+						</rich:panel>
+
+						<rich:panel id="panelHelp" style="width=100%"
+							rendered="#{afirma.status eq 0}">
+							<f:facet name="header">
+								<h:outputText value="Información" />
+							</f:facet>
+							<h:panelGrid columns="2" columnClasses="centerText, leftText"
+								width="100%">
+								<h:graphicImage value="/img/help50.png"
+									style="border-style: none;" />
+
+								<h:panelGroup>
+									<h:outputText
+										value="Seleccione una plataforma de la lista de plataformas, o selecione la opción " />
+									<h:commandButton id="newButton2" value="#{msg.WAFIRMA_BALTA}"
+										styleClass="boton" rendered="true"
+										action="#{afirma.onNewAfirma}" type="submit" immediate="false" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</rich:panel>
+
+						<rich:panel style="width=100%" rendered="#{afirma.status ne 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WAFIRMA_DATA}" />
+							</f:facet>
+
+
+							<h:panelGrid id="panelFields" columns="2"
+								columnClasses="rightText, leftText" width="100%">
+
+
+								<h:outputText value="#{msg.WAFIRMA_ID}" styleClass="text11" />
+								<h:inputText id="inputAfirmaId" value="#{afirma.idAfirmaEdit}"
+									readonly="false" immediate="true" size="60"
+									rendered="#{afirma.status ne 1}" />
+								<h:outputText value=": #{afirma.idAfirmaEdit}"
+									rendered="#{afirma.status eq 1}" styleClass="text11b" />
+
+
+								<h:outputText value="#{msg.WAFIRMA_VERSION}" styleClass="text11" />
+								<h:selectOneMenu id="inputVersion"
+									value="#{afirma.afirmaEdit.version}">
+									<f:selectItem itemLabel="#{msg.WAFIRMA_VERSIONV5D3R1}"
+										itemValue="v5d3r1" />
+									<!-- 
+									<f:selectItem itemLabel="#{msg.WAFIRMA_VERSIONV5D4}"
+										itemValue="v5d4" />
+										 -->
+									<f:selectItem itemLabel="#{msg.WAFIRMA_VERSIONV5D5}"
+										itemValue="v5d5" />
+										
+									<f:selectItem itemLabel="#{msg.WAFIRMA_VERSIONV5D6}"
+										itemValue="v5d6" />
+
+								</h:selectOneMenu>
+
+
+
+								<h:outputText value="#{msg.WAFIRMA_APPLICATIONID}"
+									styleClass="text11" />
+								<h:inputText id="inputApplicationId"
+									value="#{afirma.afirmaEdit.applicationId}" readonly="false"
+									immediate="true" size="60" />
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WAFIRMA_AUTHDATA}" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelAuth" rendered="true" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="textLeft"
+								columns="1" width="100%">
+
+
+
+								<h:panelGrid id="panelAuthFields" columns="2"
+									columnClasses="rightText, leftText">
+
+									<h:outputText value="#{msg.WAFIRMA_AUTHTYPE}"
+										styleClass="text11" />
+									<h:selectOneMenu id="inputAuthenticationType"
+										value="#{afirma.afirmaEdit.authenticationType}">
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE0}"
+											itemValue="0" />
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE1}"
+											itemValue="2" />
+										<f:selectItem itemLabel="#{msg.WAFIRMA_AUTHTYPE2}"
+											itemValue="1" />
+
+										<f:converter converterId="javax.faces.Integer" />
+
+										<a4j:support event="onchange" reRender="panelAuth" />
+
+									</h:selectOneMenu>
+
+								</h:panelGrid>
+
+
+
+								<h:panelGrid id="panelAuth1"
+									rendered="#{afirma.afirmaEdit.authenticationType ne 0}"
+									cellpadding="2" styleClass="panel0" cellspacing="2"
+									columnClasses="rightText, leftText" columns="2" width="100%">
+
+									<h:outputText value="#{msg.WLOGIN_USER}" styleClass="text11"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 2}" />
+									<h:inputText id="inputAuthUser"
+										value="#{afirma.afirmaEdit.authenticationUser}"
+										readonly="false" immediate="true" size="60"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 2}" />
+
+									<h:outputText value="#{msg.WLOGIN_PASSWORD}"
+										styleClass="text11"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 2}" />
+									<h:inputText id="inputAuthPass"
+										value="#{afirma.afirmaEdit.authenticationPassword}"
+										readonly="false" immediate="true" size="60"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 2}" />
+
+									<h:outputText value="#{msg.WAFIRMA_CERTIFICATE}"
+										styleClass="text11"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 1}" />
+
+									<h:selectOneMenu id="inputCertWS"
+										value="#{afirma.afirmaEdit.authenticationUser}"
+										rendered="#{afirma.afirmaEdit.authenticationType eq 1}">
+										<f:selectItems value="#{afirma.certsWS}" />
+									</h:selectOneMenu>
+
+
+
+								</h:panelGrid>
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="#{msg.WAFIRMA_VALSER}" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelValSerFields" columns="2"
+								columnClasses="rightText, leftText" styleClass="panel0"
+								width="100%">
+
+								<h:outputText value="#{msg.WAFIRMA_LOCATION}"
+									styleClass="text11" />
+								<h:inputText id="inputLocation"
+									value="#{afirma.valserEdit.servicesLocation}" readonly="false"
+									immediate="true" size="60" />
+
+								<h:outputText value="#{msg.WAFIRMA_OPERATION}"
+									styleClass="text11" />
+								<h:inputText id="inputOperation"
+									value="#{afirma.valserEdit.operationName}" readonly="false"
+									immediate="true" size="60" />
+
+								<h:outputText value="#{msg.WAFIRMA_TIMEOUT}" styleClass="text11" />
+																	
+								<rich:inputNumberSpinner id="inputTimeOut"
+										value="#{afirma.valserEdit.timeOut}"
+										maxValue="9999999999" minValue="0" step="1000"/>
+
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="Certificado de Confianza SOAP" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelCertSerFields" columns="2"
+								columnClasses="rightText, leftText" styleClass="panel0"
+								width="100%">
+
+								<h:outputText value="Certificado" />
+								<h:selectOneMenu id="inputCertSoap"
+									value="#{afirma.afirmaEdit.soapTrusted}">
+									<f:selectItems value="#{afirma.certsSOAP}" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid id="panelButtonsEdit" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="centerText"
+								columns="1" width="100%" rendered="#{afirma.status eq 1}">
+								<h:panelGroup>
+									<h:commandButton id="newButtonModify"
+										value="#{msg.WGLOBAL_MODIFY}" styleClass="boton"
+										rendered="true" action="#{afirma.onModify}" type="submit"
+										immediate="false" />
+									<rich:spacer width="5" />
+									<h:commandButton id="newButtonDel" value="#{msg.WGLOBAL_DEL}"
+										rendered="true" action="#{afirma.onDelete}"
+										type="submit" immediate="false" />
+								</h:panelGroup>
+							</h:panelGrid>
+
+
+							<h:panelGrid id="panelButtonsSave" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="centerText"
+								columns="1" width="100%" rendered="#{afirma.status eq 2}">
+								<h:commandButton id="newButtonAcept" value="#{msg.WGLOBAL_SAVE}"
+									rendered="true"
+									action="#{afirma.onNewAfirmaAcept}" type="submit"
+									immediate="false" />
+							</h:panelGrid>
+						</rich:panel>
+
+
+					</h:panelGrid>
+
+
+				</h:panelGrid>
+
+
+
+
+
+
+
+			</rich:panel>
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
+
+

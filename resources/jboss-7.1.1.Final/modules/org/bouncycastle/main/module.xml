@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.0" name="org.bouncycastle">
+	<resources>
+		<resource-root path="bcprov-jdk16-1.46.jar"/>
+		<resource-root path="bcmail-jdk16-1.46.jar"/>
+		<resource-root path="bctsp-jdk16-1.46.jar"/>
+    </resources>
+    <dependencies>
+        <module name="javax.api" slot="main" export="true"/>
+    </dependencies>
+</module>

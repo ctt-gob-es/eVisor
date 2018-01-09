@@ -1,0 +1,459 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+
+		<rich:modalPanel id="modalPanelDelete" resizeable="false"
+			autosized="true" zindex="2000">
+
+			<f:facet name="header">
+				<h:outputText value="Eliminar Usuario" />
+			</f:facet>
+			<h:form id="formDeleteUser">
+				<h:panelGrid width="100%" columnClasses="centerText" columns="1"
+					styleClass="panel0">
+					<h:outputText
+						value="Se va a eliminar el usuario '#{users.userEdit.login}'"
+						styleClass="text11" />
+					<rich:spacer height="10" />
+					<h:outputText value="¿Esta seguro dar de baja el usuario?"
+						styleClass="text11" />
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelDelete')" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="Eliminar Usuario"
+							action="#{users.onDeleteUser}" onclick="submit()"
+							reRender="usersListId, panelDataUser, modalPanelPassword" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+		</rich:modalPanel>
+
+
+		<rich:modalPanel id="modalPanelPassword" autosized="true"
+			zindex="2000" onhide="reRenderData3();">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WUSERS_MODPASS}" />
+			</f:facet>
+			<h:form id="formPassword">
+				<a4j:jsFunction name="reRenderData3" reRender="panelDataUser" />
+				<h:messages showDetail="true" infoClass="minihmsg_info"
+					warnClass="minihmsg_error" errorClass="minihmsg_error" />
+
+				<h:panelGrid width="100%" columnClasses="centerText" columns="2"
+					styleClass="panel0">
+
+					<h:outputText value="#{msg.WUSERS_LOGIN}" styleClass="text11" />
+					<h:inputText value="#{users.userEdit.login}" readonly="true"
+						size="60" />
+
+					<h:outputText value="#{msg.WUSERS_NEWPASS}" styleClass="text11" />
+					<h:inputSecret value="#{users.userEdit.password}" readonly="false"
+						size="60" />
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_MODPASS}" type="submit"
+							action="#{users.onAceptModifyPassword}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPassword')}.hide();"
+							reRender="formPassword" />
+						<a4j:commandButton value="Cerrar"
+							onclick="#{rich:component('modalPanelPassword')}.hide();" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</h:form>
+		</rich:modalPanel>
+
+
+		<rich:modalPanel id="modalPanelPersons" autosized="true" zindex="2000"
+			onhide="reRenderData();">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WPERSON_PERSONS}" />
+			</f:facet>
+			<h:form id="formPersonsList">
+				<a4j:jsFunction name="reRenderData"
+					reRender="panelDataUser, usersListId" />
+				<h:messages showDetail="true" infoClass="minihmsg_info"
+					warnClass="minihmsg_error" errorClass="minihmsg_error" />
+
+				<h:panelGrid rendered="#{users.statusPerson eq 0}" width="100%"
+					columnClasses="centerText" columns="1" styleClass="panel0">
+
+
+
+					<rich:scrollableDataTable id="personListId" var="per"
+						value="#{users.personsList}" binding="#{users.personTable}"
+						first="0" rows="0" frozenColCount="3" rowKeyVar="rkv"
+						height="280px" width="440px" sortMode="single"
+						hideWhenScrolling="false" selectionMode="single"
+						selection="#{users.personSelected}" cellpadding="1"
+						cellspacing="1">
+
+						<rich:column sortExpression="#{per.name}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_NAME}" />
+							</f:facet>
+							<h:outputText value="#{per.name}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.surname}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_SURNAME}" />
+							</f:facet>
+							<h:outputText value="#{per.surname}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.email}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_EMAIL}" />
+							</f:facet>
+							<h:outputText value="#{per.email}" />
+						</rich:column>
+						<rich:column sortExpression="#{per.phone}">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText"
+									value="#{msg.WPERSON_PHONE}" />
+							</f:facet>
+							<h:outputText value="#{per.phone}" />
+						</rich:column>
+
+					</rich:scrollableDataTable>
+				</h:panelGrid>
+
+
+				<h:panelGrid width="100%" columnClasses="centerText" columns="2"
+					styleClass="panel0" rendered="#{users.statusPerson ne 0}">
+
+					<h:outputText value="#{msg.WPERSON_NAME}" styleClass="text11" />
+					<h:inputText value="#{users.personEdit.name}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_SURNAME}" styleClass="text11" />
+					<h:inputText value="#{users.personEdit.surname}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_PHONE}" styleClass="text11" />
+					<h:inputText value="#{users.personEdit.phone}" readonly="false"
+						size="60" />
+
+					<h:outputText value="#{msg.WPERSON_EMAIL}" styleClass="text11" />
+					<h:inputText value="#{users.personEdit.email}" readonly="false"
+						size="60" />
+
+				</h:panelGrid>
+
+				<rich:spacer height="15" />
+
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1"
+					rendered="#{users.statusPerson eq 0}">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_ASIGN}"
+							id="buttonAssignPerson" action="#{users.onAssignPerson}"
+							type="submit" reRender="formPersonsList, panelDataUser"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();">
+						</a4j:commandButton>
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_DELETE}"
+							id="buttonDelPerson" action="#{users.onDelPerson}"
+							type="submit" reRender="formPersonsList">
+						</a4j:commandButton>
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_EDIT}"
+							id="buttonEditPerson" action="#{users.onStartModifyPerson}"
+							type="submit" reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WPERSON_NEW}"
+							action="#{users.onStartNewPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							onclick="Richfaces.hideModalPanel('modalPanelPersons')" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<h:panelGrid width="100%" rendered="#{users.statusPerson eq 1}"
+					styleClass="panel0" columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_MODANDASIGN}" type="submit"
+							action="#{users.onAceptModifyPersonAndAssign}" reRender="panelDataEdit"
+							onclick="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_MODIFY}"
+							action="#{users.onAceptModifyPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}"
+							reRender="formPersonsList" type="submit"
+							action="#{users.onCancelActionPerson}" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<h:panelGrid width="100%" rendered="#{users.statusPerson eq 2}"
+					styleClass="panel0" columnClasses="rightText" columns="1">
+					<h:panelGroup>
+						<a4j:commandButton value="#{msg.WUSERS_ADDANDASIGN}" type="submit"
+							action="#{users.onAceptNewPersonAndAssign}" reRender="panelDataEdit"
+							onclick="if (#{facesContext.maximumSeverity==null}) #{rich:component('modalPanelPersons')}.hide();" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WPERSON_ADD}"
+							action="#{users.onAceptNewPerson}" type="submit"
+							reRender="formPersonsList" />
+						<rich:spacer width="5" />
+						<a4j:commandButton value="#{msg.WGLOBAL_CANCEL}" type="submit"
+							action="#{users.onCancelActionPerson}" reRender="formPersonsList" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+			</h:form>
+		</rich:modalPanel>
+
+
+		<h:form id="usersForm">
+
+			<rich:panel style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WTITLE_USERS}" />
+				</f:facet>
+
+				<h:panelGrid id="panelContent" columns="2"
+					columnClasses="left-top,left-top" width="100%">
+
+					<h:panelGrid id="panelList" columns="1" width="220px">
+
+						<a4j:commandButton id="newUserButton" value="#{msg.WUSERS_BALTA}"
+							action="#{users.onStartNewUser}" type="submit"
+							reRender="panelDataUser, modalPanelPassword" />
+
+
+
+						<rich:scrollableDataTable height="400px" selectionMode="single"
+							width="220px" id="usersListId" rows="0" columnClasses="centerText"
+							value="#{users.usersList}" var="us" sortMode="single"
+							selection="#{users.userSelected}" frozenColCount="1">
+
+
+
+							<rich:column sortExpression="#{us.login}">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText"
+										value="#{msg.WUSERS_LOGIN}" />
+								</f:facet>
+
+								<h:outputText value="#{us.login}" />
+
+							</rich:column>
+
+							<rich:column sortExpression="#{us.person.name}">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText"
+										value="#{msg.WPERSON_NAME}" />
+								</f:facet>
+
+								<h:outputText value="#{us.person.name}" />
+
+							</rich:column>
+
+							<rich:column sortExpression="#{us.person.surname}">
+								<f:facet name="header">
+									<h:outputText styleClass="centerText"
+										value="#{msg.WPERSON_SURNAME}" />
+								</f:facet>
+
+								<h:outputText value="#{us.person.surname}" />
+
+							</rich:column>
+
+
+
+							<a4j:support event="onRowClick"
+								action="#{users.onClickUsersList}"
+								reRender="panelDataUser, modalPanelPassword">
+								<f:param name="param1" value="#{us.login}" />
+							</a4j:support>
+						</rich:scrollableDataTable>
+
+
+
+
+
+					</h:panelGrid>
+
+
+
+
+
+
+					<h:panelGrid id="panelDataUser" columns="1" width="690">
+						<rich:panel style="width=100%"
+							rendered="#{not empty facesContext.maximumSeverity}">
+							<h:panelGroup>
+								<h:messages showDetail="true" infoClass="hmsg_info"
+									warnClass="hmsg_error" errorClass="hmsg_error" />
+							</h:panelGroup>
+						</rich:panel>
+
+						<rich:panel id="panelHelp" style="width=100%"
+							rendered="#{users.status eq 0}">
+							<f:facet name="header">
+								<h:outputText value="Información" />
+							</f:facet>
+							<h:panelGrid columns="2" columnClasses="centerText, leftText"
+								width="100%">
+								<h:graphicImage value="/img/help50.png"
+									style="border-style: none;" />
+
+								<h:panelGroup>
+									<h:outputText
+										value="Seleccione un usuario la lista de usuarios, o selecione la opción " />
+									<a4j:commandButton id="newUserButton2"
+										value="#{msg.WUSERS_BALTA}" action="#{users.onStartNewUser}"
+										type="submit" reRender="panelDataUser, modalPanelPassword" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</rich:panel>
+
+						<rich:panel id="panelDataEdit" style="width=100%"
+							rendered="#{users.status ne 0}">
+							<f:facet name="header">
+								<h:outputText value="#{msg.WUSERS_USERDATA}" />
+							</f:facet>
+
+
+							<h:panelGrid id="panelFieldsUser" columns="2"
+								columnClasses="rightText, leftText" width="100%">
+
+								<h:outputText value="#{msg.WUSERS_USERNAME}" styleClass="text11" />
+								<h:inputText id="inputLogin" value="#{users.userEdit.login}"
+									size="60" readonly="#{users.status eq 1}" />
+
+								<h:outputText value="#{msg.WUSERS_PASS}" styleClass="text11"
+									rendered="#{users.status eq 2}" />
+								<h:inputSecret id="inputPassword"
+									value="#{users.userEdit.password}" readonly="false" size="60"
+									rendered="#{users.status eq 2}" />
+
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+								<h:outputText value="Datos personales" width="100%" />
+							</h:panelGrid>
+							<h:panelGrid id="panelPerson" columns="1"
+								columnClasses="centerText" styleClass="panel0" width="100%">
+
+								<h:panelGrid id="panelFieldsPerson" columns="2"
+									columnClasses="rightText, leftText" width="100%">
+
+									<h:outputText value="#{msg.WPERSON_NAME}" styleClass="text11" />
+									<h:inputText id="inputName"
+										value="#{users.userEdit.person.name}" readonly="true"
+										size="60" />
+
+									<h:outputText value="#{msg.WPERSON_SURNAME}"
+										styleClass="text11" />
+									<h:inputText id="inputSurname"
+										value="#{users.userEdit.person.surname}" readonly="true"
+										size="60" />
+
+									<h:outputText value="#{msg.WPERSON_PHONE}" styleClass="text11" />
+									<h:inputText id="inputPhone"
+										value="#{users.userEdit.person.phone}" readonly="true"
+										size="60" />
+
+									<h:outputText value="#{msg.WPERSON_EMAIL}" styleClass="text11" />
+									<h:inputText id="inputEmail"
+										value="#{users.userEdit.person.email}" readonly="true"
+										size="60" />
+
+								</h:panelGrid>
+
+
+								<a4j:commandButton value="#{msg.WUSERS_ASIGNUSER}"
+									action="#{users.onStartSelectPerson}"
+									onclick="Richfaces.showModalPanel('modalPanelPersons',{width:450, top:100})"
+									reRender="formPersonsList" />
+							</h:panelGrid>
+
+							<rich:spacer height="10" />
+
+							<h:panelGroup>
+								<h:selectBooleanCheckbox value="#{users.userEdit.locked}" />
+								<rich:spacer width="4" />
+								<h:outputText value="#{msg.WUSERS_BLOCK}" />
+							</h:panelGroup>
+
+							<rich:spacer height="10" />
+
+
+
+							<h:panelGrid id="panelButtonsSave" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%" rendered="#{users.status eq 2}">
+								<a4j:commandButton id="newButtonAcept"
+									value="#{msg.WGLOBAL_SAVE}" rendered="true"
+									action="#{users.onNewUserAcept}" type="submit"
+									reRender="usersListId, panelDataUser, modalPanelPassword" />
+							</h:panelGrid>
+
+							<h:panelGrid id="panelButtonsModify" cellpadding="2"
+								styleClass="panel0" cellspacing="2" columnClasses="rightText"
+								columns="1" width="100%" rendered="#{users.status eq 1}">
+								<h:panelGroup>
+									<a4j:commandButton id="modifyPassButtonAcept"
+										value="#{msg.WUSERS_MODPASS}" rendered="true" type="submit"
+										onclick="Richfaces.showModalPanel('modalPanelPassword',{width:450, top:100})" />
+									<rich:spacer width="5" />
+									<a4j:commandButton id="modifyButtonAcept"
+										value="#{msg.WGLOBAL_MODIFY}" rendered="true"
+										action="#{users.onModifyUserAcept}" type="submit"
+										reRender="usersListId, panelDataUser, modalPanelPassword" />
+									<rich:spacer width="5" />
+
+									<a4j:commandButton id="buttonDeleteUser" value="Dar de baja"
+										styleClass="boton"
+										onclick="Richfaces.showModalPanel('modalPanelDelete',{width:450, top:170})"
+										type="submit" reRender="formDeleteUser" />
+								</h:panelGroup>
+							</h:panelGrid>
+
+						</rich:panel>
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+
+			</rich:panel>
+
+
+
+
+
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

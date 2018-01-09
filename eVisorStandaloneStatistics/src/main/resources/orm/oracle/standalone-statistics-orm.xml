@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+
+	<named-native-query name="computeStatistics" result-set-mapping="computeWorkaround">
+			<query>
+				<![CDATA[select ST_SERVICE, ST_APPLICATION, ST_UO, ST_CODE, ST_ISSIGN, count(*) as TOTAL from
+						(
+						select TRAN, ST_SERVICE, ST_APPLICATION, ST_UO, ST_CODE from
+						(
+						select TRAN, ST_SERVICE, ST_APPLICATION, ST_UO from
+						(	 
+						select t.S_TRANSACTION_PK as TRAN, t.SERVICE as ST_SERVICE, f.F_VALUE as ST_APPLICATION from s_transactions t 
+						inner join t_traces tr on t.S_TRANSACTION_PK = tr.S_TRANSACTION
+						inner join t_tracefields f on f.T_TRACE = tr.T_TRACE_PK
+						where (t.CREATIONTIME>=:beginning and t.CREATIONTIME<:ending) and f.FIELD=0
+						)
+						left outer join
+						( 
+						select t.S_TRANSACTION_PK as TRAN_UO, f.F_VALUE as ST_UO from s_transactions t 
+						inner join t_traces tr on t.S_TRANSACTION_PK = tr.S_TRANSACTION
+						inner join t_tracefields f on f.T_TRACE = tr.T_TRACE_PK
+						where (t.CREATIONTIME>=:beginning and t.CREATIONTIME<:ending) and f.FIELD=12
+						)
+						on TRAN = TRAN_UO
+						)
+						left outer join
+						( 
+						select t.S_TRANSACTION_PK as TRAN_CODE, f.F_VALUE as ST_CODE from s_transactions t 
+						inner join t_traces tr on t.S_TRANSACTION_PK = tr.S_TRANSACTION
+						inner join t_tracefields f on f.T_TRACE = tr.T_TRACE_PK
+						where (t.CREATIONTIME>=:beginning and t.CREATIONTIME<:ending) and f.FIELD=9
+						)
+						on TRAN = TRAN_CODE
+						)
+						left outer join
+						( 
+						select t.S_TRANSACTION_PK as TRAN_ISSIGN, f.F_VALUE as ST_ISSIGN from s_transactions t 
+						inner join t_traces tr on t.S_TRANSACTION_PK = tr.S_TRANSACTION
+						inner join t_tracefields f on f.T_TRACE = tr.T_TRACE_PK
+						where (t.CREATIONTIME>=:beginning and t.CREATIONTIME<:ending) and f.FIELD=4
+						)
+						on TRAN = TRAN_ISSIGN
+						group by ST_SERVICE, ST_APPLICATION, ST_UO, ST_CODE, ST_ISSIGN]]>
+			</query>
+	</named-native-query>
+	
+	<!-- Due to unresolved hibernate bug "Pure native scalar queries are not yet supported", we use an intermediate resultsetmapping to map the native query-->
+	<sql-result-set-mapping name="computeWorkaround">
+		<column-result name="ST_SERVICE" />
+		<column-result name="ST_APPLICATION" />
+		<column-result name="ST_UO" />
+		<column-result name="ST_CODE" />
+		<column-result name="ST_ISSIGN" />
+		<column-result name="TOTAL" />
+	</sql-result-set-mapping>
+	
+	<entity class="es.gob.signaturereport.persistence.statistics.model.pojo.GroupingsPOJO">
+		<attributes>
+			<id name="groupingPk">
+				<column name="ST_GROUPING_PK"/>
+				<generated-value strategy="SEQUENCE" generator="ST_GROUPING_SEQ_GEN"/>
+				<sequence-generator name="ST_GROUPING_SEQ_GEN" sequence-name="ST_GROUPING_SEQ" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.statistics.model.pojo.StatisticTimesPOJO">
+		<attributes>
+			<id name="stTimePk">
+				<column name="ST_TIME_PK"/>
+				<generated-value strategy="SEQUENCE" generator="ST_TIME_SEQ_GEN"/>
+				<sequence-generator name="ST_TIME_SEQ_GEN" sequence-name="ST_TIME_SEQ" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.UoPOJO">
+		<attributes>
+			<id name="uoPk">
+				<column name="UO_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_UO_GEN"/>
+				<sequence-generator name="SQ_UO_GEN" sequence-name="SQ_UO" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.ApplicationPOJO">
+		<attributes>
+			<id name="appPk">
+				<column name="APP_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_APPLICATION_GEN"/>
+				<sequence-generator name="SQ_APPLICATION_GEN" sequence-name="SQ_APPLICATION" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.PersonaldataPOJO">
+		<attributes>
+			<id name="pdPk">
+				<column name="PD_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_PERSONAL_GEN"/>
+				<sequence-generator name="SQ_PERSONAL_GEN" sequence-name="SQ_PERSONAL" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.UsersPOJO">
+		<attributes>
+			<id name="userPk">
+				<column name="USER_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_USERS_GEN"/>
+				<sequence-generator name="SQ_USERS_GEN" sequence-name="SQ_USERS" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.CertificatePOJO">
+		<attributes>
+			<id name="certPk">
+				<column name="CERT_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_CERTIFICATE_GEN"/>
+				<sequence-generator name="SQ_CERTIFICATE_GEN" sequence-name="SQ_CERTIFICATE" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.KeystorePOJO">
+		<attributes>
+			<id name="ksPk">
+				<column name="KS_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_KEYSTORE_GEN"/>
+				<sequence-generator name="SQ_KEYSTORE_GEN" sequence-name="SQ_KEYSTORE" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.PlatformPOJO">
+		<attributes>
+			<id name="pfPk">
+				<column name="PF_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_PLATFORM_GEN"/>
+				<sequence-generator name="SQ_PLATFORM_GEN" sequence-name="SQ_PLATFORM" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.ServicePOJO"/>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.TemplateReportPOJO">
+		<attributes>
+			<id name="trPk">
+				<column name="TR_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_REPORT_GEN"/>
+				<sequence-generator name="SQ_REPORT_GEN" sequence-name="SQ_REPORT" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.AttachmentPOJO">
+		<attributes>
+			<id name="attPk">
+				<column name="ATT_PK"/>
+				<generated-value strategy="SEQUENCE" generator="SQ_ATTACHMENT_GEN"/>
+				<sequence-generator name="SQ_ATTACHMENT_GEN" sequence-name="SQ_ATTACHMENT" initial-value="1" allocation-size="0"/>
+			</id>
+		</attributes>
+	</entity>
+	<entity class="es.gob.signaturereport.persistence.configuration.model.pojo.TemplateContentPOJO"/>
+</entity-mappings>

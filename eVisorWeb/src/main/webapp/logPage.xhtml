@@ -1,0 +1,237 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://sourceforge.net/projects/jsf-comp/clientvalidators"
+	template="/template.xhtml">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<ui:define name="content">
+
+
+		<rich:modalPanel id="modalPanelTrxDetails" autosized="true"
+			zindex="5000">
+
+			<f:facet name="header">
+				<h:outputText value="#{msg.WLOG_TRXDETAILS}" />
+			</f:facet>
+			<h:form id="formTrxDetail">
+				<h:panelGrid width="100%" columnClasses="rightText, leftText"
+					columns="2" styleClass="panel0">
+
+					<h:outputText value="#{msg.WLOG_TRX}:" styleClass="text11b" />
+					<h:outputText value="#{log.actualTrx.transactionId}"
+						styleClass="text11" />
+
+					<h:outputText value="#{msg.WLOG_SERVICE}:" styleClass="text11b" />
+					<h:outputText value="#{msg.AUD_S_000}"
+						rendered="#{log.actualTrx.serviceId eq 0}" styleClass="text11"/>
+
+					<h:outputText value="#{msg.AUD_S_001}"
+						rendered="#{log.actualTrx.serviceId eq 1}" styleClass="text11"/>
+
+					<h:outputText value="#{msg.WLOG_DATE}:" styleClass="text11b" />
+					<h:outputText value="#{log.actualTrx.creationTime}"
+						styleClass="text11" />
+
+
+				</h:panelGrid>
+				<rich:spacer height="15" />
+				<h:panelGrid columns="1" columnClasses="leftText,centerText" width="100%" styleClass="areaTitle">
+					
+					
+					<h:outputText value="#{msg.WLOG_TRA}" width="100%" />
+				</h:panelGrid>
+
+				<rich:panel style="scrollTreeTraces" width="100%">
+
+					<rich:tree id="treeTraces" value="#{log.actualTrxTraces}" var="trace"
+						nodeFace="#{trace.type}" styleClass="scrollTreeTraces2"
+						ajaxSubmitSelection="true">
+
+
+
+						<rich:treeNode nodeClass="leftText" style="font-weight: bold;"
+							type="operation" iconLeaf="/img/tree/operation.png"
+							icon="/img/tree/operation.png">
+							<h:outputText value="#{trace.text}" />
+						</rich:treeNode>
+
+						<rich:treeNode nodeClass="leftText" style="font-weight: normal;"
+							type="field" iconLeaf="/img/tree/field.png"
+							icon="/img/tree/field.png">
+							<h:outputText value="#{trace.text}" />
+						</rich:treeNode>
+
+					</rich:tree>
+
+				</rich:panel>
+
+
+
+
+
+
+				<rich:spacer height="15" />
+				<h:panelGrid width="100%" styleClass="panel0"
+					columnClasses="rightText" columns="1">
+
+					<a4j:commandButton value="#{msg.WGLOBAL_BACK}"
+						onclick="#{rich:component('modalPanelTrxDetails')}.hide();" />
+
+				</h:panelGrid>
+
+			</h:form>
+		</rich:modalPanel>
+
+
+
+		<h:form id="logForm">
+
+			<rich:panel id="panelLog" style="width=100%">
+				<f:facet name="header">
+					<h:outputText value="#{msg.WLOG_CONSULT}" />
+				</f:facet>
+
+				<rich:panel style="width=100%"
+					rendered="#{not empty facesContext.maximumSeverity}">
+					<h:panelGroup>
+						<h:messages showDetail="true" infoClass="hmsg_info"
+							warnClass="hmsg_error" errorClass="hmsg_error" />
+					</h:panelGroup>
+				</rich:panel>
+
+
+				<h:panelGrid columns="1" width="100%" styleClass="areaTitle">
+					<h:outputText value="Opciones de consulta" width="100%" />
+				</h:panelGrid>
+
+				<h:panelGrid id="panelConsultOptions" columns="2"
+					columnClasses="rightText, leftText" styleClass="panel0"
+					width="100%">
+
+					<t:selectOneRadio id="inputConsultType" styleClass="panel0"
+						value="#{log.consultType}" layout="pageDirection" border="0">
+						<f:selectItem itemLabel="Fecha" itemValue="0" />
+						<f:selectItem itemLabel="#{msg.WLOG_TRXID}"
+							itemValue="1" />
+						<f:converter converterId="javax.faces.Integer" />
+						<a4j:support event="onclick" reRender="panelLog" />
+					</t:selectOneRadio>
+
+					<h:panelGrid id="panelConsultDate" columns="4"
+						rendered="#{log.consultType eq 0}"
+						columnClasses="rightText, leftText, rightText, leftText"
+						width="100%">
+						<h:outputText value="#{msg.WLOG_INIDATE}" styleClass="text11" />
+						<rich:calendar value="#{log.iniDate}" locale="es" popup="true"
+							datePattern="d/M/yyyy HH:mm" showApplyButton="true" cellWidth="24px"
+							cellHeight="22px" style="width:200px" zindex="2000" />
+						<h:outputText value="#{msg.WLOG_ENDDATE}" styleClass="text11" />
+						<rich:calendar value="#{log.endDate}" locale="es" popup="true"
+							datePattern="d/M/yyyy HH:mm" showApplyButton="true" cellWidth="24px"
+							cellHeight="22px" style="width:200px" zindex="2000" />
+
+						<h:outputText value="#{msg.WLOG_APPID}" styleClass="text11" />
+						<h:inputText id="inputIdApp" value="#{log.idApp}" readonly="false"
+							size="25" />
+
+						<h:outputText value="#{msg.WLOG_SERVICE}" styleClass="text11" />
+
+						<h:selectOneMenu id="inputService" styleClass="panel0"
+							value="#{log.service}" layout="pageDirection" border="0">
+							<f:selectItems value="#{log.services}" />
+							<f:converter converterId="javax.faces.Integer" />
+						</h:selectOneMenu>
+
+					</h:panelGrid>
+
+					<h:panelGrid id="panelConsultIdTrans" columns="2"
+						rendered="#{log.consultType eq 1}"
+						columnClasses="rightText, leftText" width="100%">
+						<h:outputText value="#{msg.WLOG_TRXID}"
+							styleClass="text11" />
+						<h:inputText id="inputIdTrans" value="#{log.idTrans}"
+							readonly="false" size="60" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+
+
+				<h:panelGrid id="panelButtons" cellpadding="2" styleClass="panel0"
+					cellspacing="2" columnClasses="centerText" columns="1" width="100%">
+
+					<a4j:commandButton id="buttonConsult" value="#{msg.WLOG_FIND}"
+						styleClass="boton" action="#{log.onFind}" type="submit"
+						reRender="panelLog" />
+				</h:panelGrid>
+				<rich:spacer height="5" />
+				<h:panelGrid columns="1" width="100%" styleClass="areaTitle"
+					rendered="#{log.transactions ne null}">
+					<h:outputText value="#{msg.WLOG_TRXS}" width="100%" />
+				</h:panelGrid>
+				<h:panelGrid id="panelList" cellpadding="2" styleClass="panel0"
+					rendered="#{log.transactions ne null}" cellspacing="2"
+					columnClasses="centerText" columns="1" width="100%">
+
+					<rich:scrollableDataTable height="400px" selectionMode="single"
+						width="100%" id="transacionsListId" rows="0"
+						columnClasses="centerText" value="#{log.transactions}" var="trx"
+						sortMode="single" selection="#{log.transactionSelected}">
+
+
+						<rich:column sortExpression="#{trx.creationTime}" width="150">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WLOG_DATEUP}" />
+							</f:facet>
+
+							<h:outputText value="#{trx.creationTime}" />
+
+						</rich:column>
+
+						<rich:column sortExpression="#{trx.transactionId}" width="320">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WLOG_SERVICEUP}" />
+							</f:facet>
+
+							<h:outputText value="#{msg.AUD_S_000}"
+								rendered="#{trx.serviceId eq 0}" />
+
+							<h:outputText value="#{msg.AUD_S_001}"
+								rendered="#{trx.serviceId eq 1}" />
+
+						</rich:column>
+
+
+						<rich:column sortExpression="#{trx.transactionId}" width="230">
+							<f:facet name="header">
+								<h:outputText styleClass="centerText" value="#{msg.WLOG_TRXIDUP}" />
+							</f:facet>
+
+							<h:outputText value="#{trx.transactionId}" />
+
+						</rich:column>
+
+						<a4j:support event="onRowClick"
+							actionListener="#{log.onSelectTrx}"
+							oncomplete="Richfaces.showModalPanel('modalPanelTrxDetails',{width:550, top:100})"
+							reRender="modalPanelTrxDetails">
+							<f:param name="param1" value="#{trx.transactionId}" />
+						</a4j:support>
+					</rich:scrollableDataTable>
+
+				</h:panelGrid>
+			</rich:panel>
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+
+

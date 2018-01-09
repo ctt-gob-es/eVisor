@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>es.gob.evisor</groupId>
+		<artifactId>eVisorProject</artifactId>
+		<version>3.0.0</version>
+	</parent>
+	<artifactId>eVisorToPdfWSClient</artifactId>
+	<name>eVisorToPdfWSClient</name>
+	<dependencies>
+		<!-- DEPENDENCIAS AXIS 1.4 -->
+		<dependency>
+			<groupId>axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- FIN DEPENDENCIAS AXIS 1.4 -->
+		<dependency>
+			<groupId>es.gob.evisor</groupId>
+			<artifactId>eVisorPersistence</artifactId>
+			<version>3.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

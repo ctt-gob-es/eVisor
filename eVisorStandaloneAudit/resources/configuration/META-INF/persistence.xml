@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="evisor-standalone-audit-persistence"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<mapping-file>META-INF/standalone-audit-orm.xml</mapping-file>
+		<shared-cache-mode>NONE</shared-cache-mode>
+		<properties>
+			<property name="hibernate.dialect" value="${db.standalone.dialect}" />
+			<property name="hibernate.show_sql" value="${db.standalone.show.sql}" />
+			<property name="hibernate.format_sql" value="${db.standalone.show.sql}" />
+			<property name="javax.persistence.jdbc.url" value="${db.standalone.url}" />
+			<property name="javax.persistence.jdbc.user" value="${db.standalone.user}" />
+			<property name="javax.persistence.jdbc.password" value="${db.standalone.password}" />
+			<property name="javax.persistence.jdbc.driver" value="${db.standalone.driver}" />
+		</properties>
+	</persistence-unit>
+</persistence>

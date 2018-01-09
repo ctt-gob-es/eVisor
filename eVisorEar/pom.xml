@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  	<parent>
+        <artifactId>eVisorProject</artifactId>
+        <groupId>es.gob.evisor</groupId>
+        <version>3.0.0</version>
+    </parent>
+
+  <artifactId>eVisorEar</artifactId>
+  <packaging>ear</packaging>
+
+  <name>eVisorEar</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+		<dependency>
+			<groupId>es.gob.evisor</groupId>
+			<artifactId>eVisorCore</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>es.gob.evisor</groupId>
+			<artifactId>eVisorPersistence</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>es.gob.evisor</groupId>
+			<artifactId>eVisorWeb</artifactId>
+			<version>3.0.0</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>es.gob.evisor</groupId>
+			<artifactId>eVisorToPdfWSClient</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+  <build>
+    <resources>
+			<!-- <resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${basedir}/target/earWorkDir</targetPath>
+			</resource> -->
+			<resource>
+				<directory>../</directory>
+				<includes>
+					<include>LICENSE.txt</include>
+				</includes>
+				<targetPath>${basedir}/target/earWorkDir/META-INF</targetPath>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+	</resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+       	 <fork>true</fork>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+            <version>6</version>
+            <defaultLibBundleDir>lib</defaultLibBundleDir>
+            <outputDirectory>${basedir}/target</outputDirectory>
+					<workDirectory>${basedir}/target/earWorkDir</workDirectory>
+					<defaultLibBundleDir>/lib</defaultLibBundleDir>
+					<applicationXml>${basedir}/descriptors/application.xml</applicationXml>
+					<finalName>${project.artifactId}</finalName>
+					<modules>
+						<!-- Librerías de eVisor -->
+						<jarModule>
+							<groupId>es.gob.evisor</groupId>
+							<artifactId>eVisorCore</artifactId>
+							<bundleDir>/</bundleDir>
+						</jarModule>
+						<jarModule>
+							<groupId>es.gob.evisor</groupId>
+							<artifactId>eVisorPersistence</artifactId>
+							<bundleDir>/</bundleDir>
+						</jarModule>
+						<webModule>
+							<groupId>es.gob.evisor</groupId>
+							<artifactId>eVisorWeb</artifactId>
+						</webModule>
+						<jarModule>
+							<groupId>es.gob.evisor</groupId>
+							<artifactId>eVisorToPdfWSClient</artifactId>
+							<bundleDir>/</bundleDir>
+						</jarModule>
+					</modules>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

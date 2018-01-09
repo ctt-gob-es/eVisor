@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://myfaces.apache.org/sandbox"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:comp="http://sourceforge.net/projects/jsf-comp/clientvalidators">
+<f:view contentType="text/html" />
+<head>
+
+<title>Reporte de Firmas</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/eVisor/favicon.ico" />
+<style type="text/css">
+@import url(/eVisor/css/style.css);
+
+body {
+	background-color: #666;
+	text-align: center;
+	margin: 0px;
+}
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<f:verbatim>
+	<head>
+	<script language="JavaScript1.1">
+//<![CDATA[
+  function dummyRequest()
+  {
+    var image = new Image();
+    image.src = "dummy.gif?ind=" + Math.random();
+  }
+  window.setInterval("dummyRequest();", 5 * 1000 * 60);
+    //]]>
+	</script>
+	</head>
+</f:verbatim>
+
+<f:loadBundle basename="message-content.WebMessages" var="msg" />
+
+<h:form>
+	<a4j:poll id="poll" interval="1740000" limitToList="true" />
+</h:form>
+
+<rich:modalPanel id="modalAjax" autosized="true" zindex="2000">
+	<h:graphicImage value="/img/ajax-loader.gif" alt="" title="" />
+	<h:outputText value="Cargando..." styleClass="text11b" />
+
+</rich:modalPanel>
+
+
+<div class="template_wrapper">
+<div class="template_header"><a4j:form id="headerForm">
+
+	<h:panelGrid border="0" width="100%" id="header" style="border: none;"
+		columnClasses="leftText" cellpadding="0" cellspacing="0" columns="1">
+		<h:panelGrid width="100%" columns="2"
+			columnClasses="leftText,rightText"
+			style="border: none; vertical-align: middle;" cellpadding="0"
+			cellspacing="0">
+			<h:graphicImage value="/img/cab_left.jpg" title="" alt="" />
+
+
+			<h:panelGrid width="100%" columns="2"
+				columnClasses="rightText,rightText"
+				style="border: none; vertical-align: middle;" cellpadding="0"
+				cellspacing="0">
+
+				<h:panelGroup>
+					<a4j:status layout="block" stopStyle="display: none;"
+						startStyle="vertical-align: middle;">
+						<f:facet name="start">
+							<h:panelGroup>
+								<h:graphicImage style="border: none; vertical-align: middle;"
+									alt="" value="/img/ajax-loader.gif" />
+							</h:panelGroup>
+						</f:facet>
+					</a4j:status>
+				</h:panelGroup>
+
+
+				<h:graphicImage value="/img/cab_right.gif" title="" alt="" />
+			</h:panelGrid>
+
+
+
+
+		</h:panelGrid>
+		<div style="clear: both;"></div>
+
+	</h:panelGrid>
+
+
+</a4j:form></div>
+
+
+<div class="template_content"><ui:insert name="content">Contenido por defecto</ui:insert>
+</div>
+
+<div class="template_foot"><h:form id="footForm">
+	<f:verbatim>
+		<br />
+	</f:verbatim>
+	<h:panelGrid border="0" width="100%" columnClasses="rightText"
+		columns="1" styleClass="texto11" id="footer" cellpadding="0"
+		cellspacing="0">
+		<h:panelGrid border="0" columns="1" id="gridCuerpoPie" cellpadding="0"
+			cellspacing="0" width="100%" columnClasses="centerText"
+			style="text-align: center; vertical-align: middle;">
+			<h:outputText
+				value="#{msg.WGLOBAL_YEAR} - #{msg.WGLOBAL_COMPANY} - #{msg.WGLOBAL_MAIL}"
+				styleClass="text11" style="color: black;" />
+		</h:panelGrid>
+	</h:panelGrid>
+	<f:verbatim>
+		<br />
+	</f:verbatim>
+</h:form></div>
+</div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
