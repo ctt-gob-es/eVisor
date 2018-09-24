@@ -71,7 +71,7 @@ import es.gob.signaturereport.persistence.maudit.model.pojo.TransactionPOJO;
  */
 @Singleton
 @ManagedBean
-public final class AuditPersistenceFacade {
+public class AuditPersistenceFacade {
 
 	/**
 	 * Attribute that represents the object that manages the log of the class.

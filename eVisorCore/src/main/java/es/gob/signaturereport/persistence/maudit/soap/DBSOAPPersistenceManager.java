@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Map;
 
+import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -44,6 +45,8 @@ import es.gob.signaturereport.tools.UtilsBase64;
  * <b>Project:</b><p>Horizontal platform to generation signature reports in legible format.</p>
  * @version 1.0, 19/07/2011.
  */
+@ManagedBean
+@DBSOAPPersistence
 public class DBSOAPPersistenceManager implements SOAPPersistenceI {
 	/**
 	 * Attribute that represents the object that manages the log of the class.

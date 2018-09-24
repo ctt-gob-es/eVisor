@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+	<globalConfiguration>
+		<parameter name="adminPassword" value="admin"/>
+		<parameter name="attachments.Directory" value=".\attachments"/>
+		<parameter name="sendMultiRefs" value="false"/>
+		<parameter name="sendXsiTypes" value="true"/>
+		<parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+		<parameter name="sendXMLDeclaration" value="true"/>
+		<parameter name="axis.sendMinimizedElements" value="true"/>
+		<requestFlow>
+			<handler type="java:org.apache.axis.handlers.JWSHandler">
+				<parameter name="scope" value="session"/>
+			</handler>
+			<handler type="java:org.apache.axis.handlers.JWSHandler">
+				<parameter name="scope" value="request"/>
+				<parameter name="extension" value=".jwr"/>
+			</handler>
+		</requestFlow>
+	</globalConfiguration>
+	<handler name="SOAPMonitor" type="java:org.apache.axis.handlers.SOAPMonitorHandler"/>
+	<handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+	<handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+	<handler name="RPCDispatcher" type="java:org.apache.axis.providers.java.RPCProvider"/>
+	<handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+	<handler name="Log" type="java:org.apache.axis.handlers.DebugHandler"/>
+	<handler name="MsgDispatcher" type="java:org.apache.axis.providers.java.MsgProvider"/>
+	<handler name="WSAuthorizationHandler" type="java:es.gob.signaturereport.ws.authorization.AuthorizationRequestHandler"/>
+	<handler name="StartAuditTransactionHandler" type="java:es.gob.signaturereport.ws.handler.StartAuditTransactionHandler"/>
+	<handler name="CustodyRequestHandler" type="java:es.gob.signaturereport.ws.handler.CustodyRequestHandler"/>
+	<handler name="CustodyResponseHandler" type="java:es.gob.signaturereport.ws.handler.CustodyResponseHandler"/>
+	<handler name="CloseAuditTransactionHandler" type="java:es.gob.signaturereport.ws.handler.CloseAuditTransactionHandler"/>
+	<service name="SignatureReportService" provider="Handler">
+		<parameter name="handlerClass" value="org.apache.axis.providers.java.RPCProvider"/>
+		<parameter name="allowedMethods" value="*"/>
+		<parameter name="scope" value="Session"/>
+		<parameter name="className" value="es.gob.signaturereport.ws.SignatureReportService"/>
+		<wsdlFile>SignatureReportService.wsdl</wsdlFile>
+		<endpointURL>http://localhost/eVisorWeb/services/</endpointURL>
+		<requestFlow>
+			<handler type="WSAuthorizationHandler"/>
+			<handler type="StartAuditTransactionHandler"/>
+			<handler type="CustodyRequestHandler"/>
+		</requestFlow>
+		<responseFlow>
+			<handler type="CustodyResponseHandler"/>
+			<handler type="CloseAuditTransactionHandler"/>
+		</responseFlow>
+	</service>	
+	
+	<transport name="http">
+		<requestFlow>
+			<handler type="URLMapper"/>
+			<handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+		</requestFlow>
+	</transport>
+	<transport name="local">
+		<responseFlow>
+			<handler type="java:org.apache.axis.transport.local.LocalResponder"/>
+		</responseFlow>
+	</transport>
+</deployment>

@@ -23,13 +23,15 @@ package es.gob.signaturereport.persistence.maudit.soap;
 
 import java.util.Map;
 
-import javax.ejb.Stateless;
+import javax.annotation.ManagedBean;
 
 /** 
  * <p>Class for storing the SOAP message in the disk.</p>
  * <b>Project:</b><p>Horizontal platform to generation signature reports in legible format.</p>
  * @version 1.0, 04/10/2011.
  */
+@ManagedBean
+@FileSOAPPersistence
 public class FileSOAPPersistenceManager implements SOAPPersistenceI {
 
 	/**

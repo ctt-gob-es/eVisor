@@ -26,8 +26,6 @@ import java.util.LinkedHashMap;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.inject.New;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -46,7 +44,7 @@ import es.gob.signaturereport.properties.StaticSignatureReportProperties;
  */
 @Singleton
 @ManagedBean
-public final class SOAPPersistenceFacade {
+public class SOAPPersistenceFacade {
 	
 	/**
 	 * Attribute that represents instance of the class.
@@ -63,69 +61,22 @@ public final class SOAPPersistenceFacade {
 	 */
 	private SOAPPersistenceType soapResponseType;
 	
-	/**
-	 * Producer method to instance the selected persistence type for SOAP requests
-	 * @param db Instance of DBSOAPPersistenceManager
-	 * @param file Instance of FileSOAPPersistenceManager
-	 * @return The instance selected depending soapRequestType
-	 */
-	@Produces
-	@SOAPRequestPersistence
-	public SOAPPersistenceI getSoapRequestManager(@New FileSOAPPersistenceManager file,
-           @New DBSOAPPersistenceManager db) {
-		
-		
-		if (soapRequestType == null) {
-			soapRequestType = SOAPPersistenceType.DB;
-		}
-		
-        switch (soapRequestType) {
-            case DB:
-                return db;
-            case FILE:
-                return file;
-            default:
-                return db;
-        }
-    }
+	@Inject
+	@DBSOAPPersistence
+	private SOAPPersistenceI dbSoap;
 	
-	/**
-	 * Producer method to instance the selected persistence type for SOAP requests
-	 * @param db Instance of DBSOAPPersistenceManager
-	 * @param file Instance of FileSOAPPersistenceManager
-	 * @return The instance selected depending soapResponseType
-	 */
-	@Produces
-	@SOAPResponsePersistence
-    public SOAPPersistenceI getSoapResponseManager(@New FileSOAPPersistenceManager file,
-            @New DBSOAPPersistenceManager db) {
-		
-		if (soapResponseType == null) {
-			soapResponseType = SOAPPersistenceType.DB;
-		}
-
-        switch (soapResponseType) {
-            case DB:
-                return db;
-            case FILE:
-                return file;
-            default:
-                return db;
-        }
-    }
+	@Inject
+	@FileSOAPPersistence
+	private SOAPPersistenceI fileSoap;
 
 	/**
 	 * Attribute that represents the class that manages the persistence for SOAP requests. 
 	 */
-	@Inject
-	@SOAPRequestPersistence
 	private SOAPPersistenceI soapRequestManager;
 
 	/**
 	 * Attribute that represents the class that manages the persistence for SOAP responses. 
 	 */
-	@Inject
-	@SOAPResponsePersistence
 	private SOAPPersistenceI soapResponseManager;
 	
 	@Inject
@@ -197,6 +148,36 @@ public final class SOAPPersistenceFacade {
 	@PostConstruct
 	public final void init() {
 		
+		if (soapResponseType == null) {
+			soapResponseType = SOAPPersistenceType.DB;
+		}
+
+        switch (soapResponseType) {
+            case DB:
+            	soapResponseManager = dbSoap;
+            	break;
+            case FILE:
+            	soapResponseManager = fileSoap;
+            	break;
+            default:
+            	soapResponseManager = dbSoap;
+        }
+
+        if (soapRequestType == null) {
+        	soapRequestType = SOAPPersistenceType.DB;
+		}
+
+        switch (soapRequestType) {
+            case DB:
+            	soapRequestManager = dbSoap;
+            	break;
+            case FILE:
+            	soapRequestManager = fileSoap;
+            	break;
+            default:
+            	soapRequestManager = dbSoap;
+        }
+
 		instance = this;
 		
 		loadSOAPMAnagerImpl();

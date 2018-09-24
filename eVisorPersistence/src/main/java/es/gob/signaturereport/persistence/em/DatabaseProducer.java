@@ -1,5 +1,6 @@
 package es.gob.signaturereport.persistence.em;
 
+import javax.annotation.ManagedBean;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceContextType;
 
 import eVisorEar.EntityManagerAudit;
 
+@ManagedBean
 public class DatabaseProducer {
 		 
 	    @Produces

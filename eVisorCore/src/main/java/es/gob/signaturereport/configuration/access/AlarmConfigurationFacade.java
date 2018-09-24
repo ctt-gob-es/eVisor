@@ -82,7 +82,7 @@ public class AlarmConfigurationFacade implements AlarmConfigurationFacadeI {
      * {@inheritDoc}
      * @see es.gob.signaturereport.configuration.access.AlarmConfigurationFacadeI#getSystemAlarms()
      */
-    public final AlarmIdentifier[ ] getSystemAlarms() throws ConfigurationException {
+    public AlarmIdentifier[ ] getSystemAlarms() throws ConfigurationException {
     	return alarmIdentifiers;
     }
 
@@ -90,7 +90,7 @@ public class AlarmConfigurationFacade implements AlarmConfigurationFacadeI {
      * {@inheritDoc}
      * @see es.gob.signaturereport.configuration.access.AlarmConfigurationFacadeI#getAlarm(java.lang.String)
      */
-    public final Alarm getAlarm(final String alarmId) throws ConfigurationException {
+    public Alarm getAlarm(final String alarmId) throws ConfigurationException {
     	Alarm alarm = null;
     	if (alarmId == null || alarmId.trim().length() == 0) {
     		throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS,Language.getMessage(LanguageKeys.CONF_080));
@@ -122,7 +122,7 @@ public class AlarmConfigurationFacade implements AlarmConfigurationFacadeI {
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.configuration.access.AlarmConfigurationFacadeI#setAlarmConfiguration(java.lang.String, java.lang.String[], boolean, int)
 	 */
-	public final void setAlarmConfiguration(final String alarmId, final List<String> receivers, final boolean lock, final int standByTime) throws ConfigurationException {
+	public void setAlarmConfiguration(final String alarmId, final List<String> receivers, final boolean lock, final int standByTime) throws ConfigurationException {
 		if (alarmId == null|| alarmId.trim().length()==0) {
     		throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS,Language.getMessage(LanguageKeys.CONF_080));
     	}

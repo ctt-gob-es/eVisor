@@ -258,7 +258,7 @@ public class StatsController extends AbstractController {
      * Attribute that represents . 
      */
     @Inject @Singleton
-    private StatisticsManager statsManager;
+    private transient StatisticsManager statsManager;
 
 	/**
 	 * Gets the field group.

@@ -113,7 +113,7 @@ public class ApplicationModuleBO implements IApplicationModuleBO {
 	 * @see es.gob.signaturereport.persistence.configuration.model.bo.interfaz.IApplicationsModuleBO#createApplication(String.applicationId,es.gob.signaturereport.persistence.configuration.model.pojo.ApplicationPOJO,String.uoId)
 	 */
     @SuppressWarnings("unchecked")
-	public final void createApplication(final String applicationId, final ApplicationData appData, final String uoId) throws DatabaseException {
+	public void createApplication(final String applicationId, final ApplicationData appData, final String uoId) throws DatabaseException {
 
 		if (applicationId == null || applicationId.equals("")) {
 			throw new DatabaseException(DatabaseException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.DB_094));
@@ -243,7 +243,7 @@ public class ApplicationModuleBO implements IApplicationModuleBO {
 	 * @see es.gob.signaturereport.persistence.configuration.model.bo.interfaz.IApplicationsModuleBO#updateApplication(es.gob.signaturereport.persistence.configuration.model.pojo.ApplicationPOJO)
 	 */
 	@Override
-	public final void updateApplication(final ApplicationPOJO applicationPOJO) throws DatabaseException {
+	public void updateApplication(final ApplicationPOJO applicationPOJO) throws DatabaseException {
 
 		// Comprobamos que la aplicación no sea nula y que no exista una
 		// aplicación con el mismo identificador
@@ -278,7 +278,7 @@ public class ApplicationModuleBO implements IApplicationModuleBO {
 	 */
 	@Override
 	
-	public final void removeApplication(final String applicationId) throws DatabaseException {
+	public void removeApplication(final String applicationId) throws DatabaseException {
 
 		try {
 			
@@ -313,7 +313,7 @@ public class ApplicationModuleBO implements IApplicationModuleBO {
 	 * @see es.gob.signaturereport.configuration.access.ApplicationModuleBOI#modifyApplication(java.lang.String)
 	 */
 	@Override
-	public final ApplicationPOJO getApplication(final String applicationId) throws DatabaseException {
+	public ApplicationPOJO getApplication(final String applicationId) throws DatabaseException {
 
 		if (applicationId == null || applicationId.trim().equals("")) {
 			throw new DatabaseException(DatabaseException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.DB_090));
@@ -376,7 +376,7 @@ public class ApplicationModuleBO implements IApplicationModuleBO {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public final void modifyApplication(final String applicationId, final ApplicationData appData) throws DatabaseException {
+	public void modifyApplication(final String applicationId, final ApplicationData appData) throws DatabaseException {
 
 		if (applicationId == null || applicationId.equals("")) {
 			throw new DatabaseException(DatabaseException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.DB_094));

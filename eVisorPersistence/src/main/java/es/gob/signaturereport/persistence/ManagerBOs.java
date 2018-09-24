@@ -52,6 +52,12 @@ public class ManagerBOs {
      */
     @Inject
     private AuditManagerBOs auditManagerBOs;
+
+    /**
+     * Attribute that represents the configuration scheme manager BOs.
+     */
+    @Inject
+    private StatisticManagerBOs statisticManagerBOs;
    
     /**
      * Static method to get the singleton of the class.
@@ -114,5 +120,23 @@ public class ManagerBOs {
 	 */
 	public void setAuditManagerBOs(AuditManagerBOs auditManagerBOs) {
 		this.auditManagerBOs = auditManagerBOs;
+	}
+
+	
+	/**
+	 * Gets the value of the attribute {@link #statisticManagerBOs}.
+	 * @return the value of the attribute {@link #statisticManagerBOs}.
+	 */
+	public StatisticManagerBOs getStatisticManagerBos() {
+		return statisticManagerBOs;
+	}
+
+	
+	/**
+	 * Sets the value of the attribute {@link #statisticManagerBOs}.
+	 * @param statisticManagerBOs The value for the attribute {@link #statisticManagerBOs}.
+	 */
+	public void setStatisticManagerBos(StatisticManagerBOs statisticManagerBOs) {
+		this.statisticManagerBOs = statisticManagerBOs;
 	}
 }

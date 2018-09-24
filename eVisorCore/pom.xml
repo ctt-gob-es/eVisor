@@ -21,16 +21,9 @@
     	<!-- Import the JSF API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
              <groupId>org.jboss.spec.javax.faces</groupId>
-             <artifactId>jboss-jsf-api_2.0_spec</artifactId>
-             <version>1.0.0.Final</version>
+             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
              <scope>provided</scope>
         </dependency>
-       <!--  <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency> -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
@@ -38,8 +31,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
+			<groupId>com.sun.mail</groupId>
+    		<artifactId>javax.mail</artifactId>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -129,18 +122,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>axis</groupId>
-			<artifactId>axis-saaj</artifactId>
-			<version>1.4</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>axis</groupId>
-			<artifactId>axis-schema</artifactId>
-			<version>1.3</version>
-			<scope>runtime</scope>
-		</dependency>
 		<!-- FIN DEPENDENCIAS AXIS 1.4 -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.xml.rpc</groupId>
@@ -203,13 +184,11 @@
     		<groupId>org.apache.tika</groupId>
     		<artifactId>tika-core</artifactId>
     		<version>1.9</version>
-    		<!-- <scope>provided</scope> -->
   		</dependency>
 		<dependency>
     		<groupId>org.apache.tika</groupId>
     		<artifactId>tika-parsers</artifactId>
     		<version>1.9</version>
-    		<!-- <scope>provided</scope> -->
     		<exclusions>
     			<exclusion>
     				<groupId>asm</groupId>
@@ -239,35 +218,10 @@
 		<dependency>
 			<groupId>org.apache.santuario</groupId>
 			<artifactId>xmlsec</artifactId>
-			<version>1.4.2</version>
+			<version>1.4.8</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>es.gob.afirma</groupId>
-			<artifactId>integra</artifactId>
-			<version>1.2.2-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>axis</artifactId>
-					<groupId>org.apache.axis</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>axis-jaxrpc</artifactId>
-					<groupId>org.apache.axis</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>axis-saaj</artifactId>
-					<groupId>org.apache.axis</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.ws.security</groupId>
-					<artifactId>wss4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
@@ -311,19 +265,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                	<fork>true</fork>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
@@ -331,7 +272,21 @@
                     <finalName>${project.artifactId}</finalName>
 					<archive>
 						<manifestEntries>
-							<Dependencies>javax.faces.api,javax.xml.rpc.api,org.bouncycastle</Dependencies>
+                            <Built-By>${built.by}</Built-By>
+                            <Built-Time>${timestamp}</Built-Time>
+                            <Vendor>${project.organization.name}</Vendor>
+                            <Project-Name>${evisor.project.name}</Project-Name>
+                            <evisor-Version>${version.evisor}</evisor-Version>
+                            <Artifact-Version>${version.evisor.core}</Artifact-Version>
+                            <Artifact-Name>${project.name}</Artifact-Name>
+                            <evisor-persistence-Version>${version.evisor.persistence}</evisor-persistence-Version>
+                            <evisor-evisortopdfwSclient-Version>${version.evisor.evisortopdfwSclient}</evisor-evisortopdfwSclient-Version>
+							<Dependencies>
+								javax.faces.api, 
+								oracle.driver.thin, 
+								javax.xml.rpc.api, 
+								org.bouncycastle
+							</Dependencies>
 						</manifestEntries>
 					</archive>		
                 </configuration>

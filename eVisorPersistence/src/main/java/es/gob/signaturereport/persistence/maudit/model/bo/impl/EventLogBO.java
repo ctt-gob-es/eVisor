@@ -42,7 +42,7 @@ public class EventLogBO implements IEventLogBO {
     // CHECKSTYLE:OFF -- Checkstyle rule "Design for Extension" is not applied
     // because injection needs not final access property.
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
     
     // CHECKSTYLE:ON
 		
@@ -50,7 +50,7 @@ public class EventLogBO implements IEventLogBO {
 	 * @see es.gob.signaturereport.persistence.maudit.model.interfaz.IEventLogBO#storeEventFile(Long, String, Date, byte[], boolean)
 	 */
 	@Override
-	public final void storeEventFile(final Long identifier, final String eventCustodyType, final Date creationTime, final byte[ ] file) throws DatabaseException {
+	public void storeEventFile(final Long identifier, final String eventCustodyType, final Date creationTime, final byte[ ] file) throws DatabaseException {
 		
 		try {
 			
@@ -78,7 +78,7 @@ public class EventLogBO implements IEventLogBO {
 	 * @see es.gob.signaturereport.persistence.maudit.model.interfaz.IEventLogBO#existEventFile(java.lang.Long)
 	 */
 	@Override
-	public final boolean existEventFile(final Long eventId) throws DatabaseException {
+	public boolean existEventFile(final Long eventId) throws DatabaseException {
 		
 		try {
 				
@@ -98,7 +98,7 @@ public class EventLogBO implements IEventLogBO {
 	 * @see es.gob.signaturereport.persistence.maudit.model.interfaz.IEventLogBO#getEventLog(java.lang.Long)
 	 */
 	@Override
-	public final EventLogPOJO getEventLog(final Long eventId) throws DatabaseException
+	public EventLogPOJO getEventLog(final Long eventId) throws DatabaseException
 	{
 		return (EventLogPOJO) em.load(EventLogPOJO.class, eventId);
 	}

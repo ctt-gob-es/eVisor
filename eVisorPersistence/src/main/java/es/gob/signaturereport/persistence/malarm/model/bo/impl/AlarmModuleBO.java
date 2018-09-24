@@ -55,14 +55,14 @@ public class AlarmModuleBO implements IAlarmModuleBO {
     // CHECKSTYLE:OFF -- Checkstyle rule "Design for Extension" is not applied
     // because injection needs not final access property.
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
 
 	/**
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#getAlarm(java.lang.String)
 	 */
 	@Override
-	public final AlarmPOJO getAlarm(final String alarmId) throws DatabaseException {
+	public AlarmPOJO getAlarm(final String alarmId) throws DatabaseException {
 
 		AlarmPOJO alarm = null;
 		
@@ -79,7 +79,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#getReceiversListEMail(java.lang.String[])
 	 */
 	@Override
-	public final List<ReceiversPOJO> getReceiversListEMail(final String[ ] receivers) {
+	public List<ReceiversPOJO> getReceiversListEMail(final String[ ] receivers) {
 
 		List<Predicate> predList = new LinkedList<Predicate>();
 		Predicate[ ] predArray = new Predicate[predList.size()];
@@ -112,7 +112,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
      * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#insertReceiver(es.gob.signaturereport.persistence.malarm.model.pojo.ReceiversPOJO)
      */
     @Override
-    public final boolean insertReceiver(final ReceiversPOJO receiverPojo) throws DatabaseException {
+    public boolean insertReceiver(final ReceiversPOJO receiverPojo) throws DatabaseException {
 
 		boolean result = false;
 		// Comprobamos los parámetros de entrada.
@@ -138,7 +138,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
      * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#insertLogAlarm(es.gob.signaturereport.persistence.malarm.model.pojo.LogAlarmPOJO)
      */
     @Override
-    public final boolean insertLogAlarm(final LogAlarmPOJO logAlarmPojo) throws DatabaseException {
+    public boolean insertLogAlarm(final LogAlarmPOJO logAlarmPojo) throws DatabaseException {
 
 		boolean result = false;
 		// Comprobamos los parámetros de entrada.
@@ -165,7 +165,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#setCommunicationTime(java.util.Date, java.lang.Long[])
 	 */
 	@Override
-	public final void setCommunicationTime(final Date commtime, final Long[ ] logAlarmPKs) throws DatabaseException {
+	public void setCommunicationTime(final Date commtime, final Long[ ] logAlarmPKs) throws DatabaseException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(IParametersQueriesConstants.PARAM_LIST_LOG_ALARM_PK, Arrays.asList(logAlarmPKs));
@@ -180,7 +180,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#setLastCommunication(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public final void setLastCommunication(String alarmId, Date commTime) throws DatabaseException {
+	public void setLastCommunication(String alarmId, Date commTime) throws DatabaseException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(IParametersQueriesConstants.PARAM_ALARM_ID, alarmId);
@@ -196,7 +196,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public final List<LogAlarmPOJO> getPendingAlarms(String alarmId) throws DatabaseException {
+	public List<LogAlarmPOJO> getPendingAlarms(String alarmId) throws DatabaseException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(IParametersQueriesConstants.PARAM_ALARM_ID, alarmId);
@@ -210,7 +210,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 * @see es.gob.signaturereport.persistence.malarm.model.bo.interfaz.IAlarmModuleBO#updateAlarm(es.gob.signaturereport.persistence.malarm.model.pojo.AlarmPOJO)
 	 */
 	@Override
-	public final void updateAlarm(final AlarmPOJO alarmPOJO) throws DatabaseException {
+	public void updateAlarm(final AlarmPOJO alarmPOJO) throws DatabaseException {
 
 		if (alarmPOJO != null && alarmPOJO.getAlarmId() != null) {
 
@@ -243,7 +243,7 @@ public class AlarmModuleBO implements IAlarmModuleBO {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public final List<AlarmPOJO> findAllAlarms() throws DatabaseException {
+	public List<AlarmPOJO> findAllAlarms() throws DatabaseException {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 

@@ -4,129 +4,226 @@
 	<groupId>es.gob.evisor</groupId>
 	<artifactId>eVisorProject</artifactId>
 	<version>3.0.0</version>
+	<organization>
+		<name>RICOH IT Services</name>
+	</organization>
 	<packaging>pom</packaging>
 	<name>eVisorProject</name>
 	<description>Sistema de Emisión y Validación de Informe de Firma.</description>
-	
+
 	<properties>
+		<project.build.jdk>1.8</project.build.jdk>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.home>${env.JAVA_HOME}</java.home>
+		<version.wildfly>10.1.0.Final</version.wildfly>
+		<plugin.source.skip>true</plugin.source.skip>
+		<plugin.javadoc.skip>true</plugin.javadoc.skip>
+
+		<built.by>eVisor Team</built.by>
+		<evisor.project.name>eVisor</evisor.project.name>
+		<version.evisor>3.0.0</version.evisor>
+		<version.evisor.core>3.0.0</version.evisor.core>
+		<version.evisor.ear>3.0.0</version.evisor.ear>
+		<version.evisor.persistence>3.0.0</version.evisor.persistence>
+		<version.evisor.evisortopdf>3.0.0</version.evisor.evisortopdf>
+		<version.evisor.evisortopdfwSclient>3.0.0</version.evisor.evisortopdfwSclient>
+		<version.evisor.evisorweb>3.0.0</version.evisor.evisorweb>
+		<version.evisor.evisorstandalonestatistics>3.0.0</version.evisor.evisorstandalonestatistics>
+		<version.evisor.evisorstandaloneaudit>3.0.0</version.evisor.evisorstandaloneaudit>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
-			  <dependency>
-                  <groupId>org.jboss.spec</groupId>
-                  <artifactId>jboss-javaee-6.0</artifactId>
-                  <version>3.0.3.Final</version>
-                  <type>pom</type>
-                  <scope>import</scope>
-             </dependency>
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-feature-pack</artifactId>
+				<version>${version.wildfly}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
+
 	<dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-             <groupId>javax.enterprise</groupId>
-             <artifactId>cdi-api</artifactId>
-             <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope
-           as the API is included in JBoss EAP -->
-        <dependency>
-             <groupId>org.jboss.spec.javax.annotation</groupId>
-             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
-             <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-             <groupId>org.hibernate.javax.persistence</groupId>
-             <artifactId>hibernate-jpa-2.0-api</artifactId>
-             <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-             <groupId>org.jboss.spec.javax.transaction</groupId>
-             <artifactId>jboss-transaction-api_1.1_spec</artifactId>
-             <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-             <groupId>org.jboss.spec.javax.ejb</groupId>
-             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-             <scope>provided</scope>
-        </dependency>
-        
-        <!-- Import the SERVLET API, we use provided scope as the API is included in JBoss EAP -->
-        <dependency>
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+		<!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
+		<!-- Import the Common Annotations API (JSR-250), we use provided scope 
+			as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+    		<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+    		<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.transaction</groupId>
+    		<artifactId>jboss-transaction-api_1.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Import the SERVLET API, we use provided scope as the API is included in JBoss EAP -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+    		<artifactId>jboss-servlet-api_3.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
-			<artifactId>jboss-jsp-api_2.2_spec</artifactId>
+    		<artifactId>jboss-jsp-api_2.3_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-				
-		<dependency>
+
+ 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 			<scope>provided</scope>
 		</dependency>
-		
-    </dependencies>
 
-	
+	</dependencies>
+
+
 	<build>
+		<!-- Definición de los plugins genéricos -->
 		<plugins>
+			<!-- Plugin para generar la fecha de empaquetado que se incluirá en el 
+				manifest. -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<groupId>com.keyboardsamurais.maven</groupId>
+				<artifactId>maven-timestamp-plugin</artifactId>
+				<version>1.0</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<fork>true</fork>
-					<compilerArguments>
-						<endorseddirs>-Djava.endorsed.dirs=${project.build.directory}/endorsed</endorseddirs>
-					</compilerArguments>
-					<executable>D:/software/java/jdk1.6.0_22/bin/javac</executable>
+					<propertyName>timestamp</propertyName>
+					<timestampPattern>dd/MM/yyyy HH:mm</timestampPattern>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>clean</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+			<!-- Plugin que prepara las librerías necesarias de indicar en el endorsed 
+				a la hora de compilar. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.1</version>
+				<version>2.2</version>
 				<executions>
 					<execution>
-						<phase>validate</phase>
+						<phase>validate</phase> <!-- AÑADIDO -->
 						<goals>
 							<goal>copy</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-							<silent>true</silent>
+							<!-- Configure the plugin to copy the jar containing javax.annotation.* 
+								to a folder named "endorsed" within the project's build directory -->
 							<artifactItems>
 								<artifactItem>
-									<groupId>javax</groupId>
-									<artifactId>javaee-endorsed-api</artifactId>
-									<version>6.0</version>
-									<type>jar</type>
+									<groupId>org.jboss.spec.javax.annotation</groupId>
+									<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.inject</groupId>
+									<artifactId>javax.inject</artifactId>
 								</artifactItem>
 							</artifactItems>
+							<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+							<silent>true</silent> <!-- AÑADIDO -->
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>${project.build.jdk}</source>
+					<target>${project.build.jdk}</target>
+					<verbose>false</verbose>
+					<fork>true</fork>
+					<executable>${java.home}\..\bin\javac</executable>
+					<compilerVersion>${project.build.jdk}</compilerVersion>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<debug>${maven.compiler.debug}</debug>
+					<debuglevel>lines,vars,source</debuglevel>
+					<compilerArgs>
+						<arg>-XDignore.symbol.file</arg>
+						<arg>-Djava.endorsed.dirs=${project.build.directory}/endorsed</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+		
+			<!-- Plugin para generar las fuentes --> 
+            <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-source-plugin</artifactId>
+                  <version>2.2.1</version>
+                  <configuration>
+                        <skipSource>${plugin.source.skip}</skipSource>
+                  </configuration>
+                  <executions>
+                        <execution>
+                             <id>attach-sources</id>
+                             <goals>
+                                   <goal>jar</goal>
+                             </goals>
+                        </execution>
+                  </executions>
+            </plugin>
+            <!-- Plugin para generar el javadoc -->
+            <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-javadoc-plugin</artifactId>
+                  <version>2.9</version>
+                  <configuration>
+                        <skip>${plugin.javadoc.skip}</skip>
+                  </configuration>                   
+                  <executions>
+                        <execution>                        
+                             <id>attach-javadocs</id>
+                             <goals>
+                                   <goal>jar</goal>                                     
+                             </goals>
+                        </execution>                             
+                  </executions>
+            </plugin>
+            <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-site-plugin</artifactId>
+                  <version>3.6</version>
+                  <configuration>
+                        <locales>es,en</locales>
+                  </configuration>
+            </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -155,7 +252,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore/>
+										<ignore />
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -174,7 +271,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore/>
+										<ignore />
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -195,7 +292,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore/>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
@@ -227,8 +324,8 @@
 				<db.datasource.audit.name>jboss/datasources/EVisorAuditDS</db.datasource.audit.name>
 				<db.dialect>org.hibernate.dialect.Oracle10gDialect</db.dialect>
 				<db.show.sql>false</db.show.sql>
-				
-				
+
+
 				<!-- Database standalone connection properties -->
 				<db.standalone.persistence>src/main/resources/persistence/oracle</db.standalone.persistence>
 				<orm.relative.path.dir>src/main/resources/orm/oracle</orm.relative.path.dir>
@@ -260,8 +357,8 @@
 				<db.datasource.configuration.password>12345</db.datasource.configuration.password>
 				<db.dialect>org.hibernate.dialect.Oracle10gDialect</db.dialect>
 				<db.show.sql>false</db.show.sql>
-				
-				
+
+
 				<!-- Database standalone connection properties -->
 				<db.standalone.persistence>src/main/resources/persistence/oracle</db.standalone.persistence>
 				<orm.relative.path.dir>src/main/resources/orm/oracle</orm.relative.path.dir>
@@ -272,7 +369,7 @@
 				<db.standalone.user>EVISOROWNER</db.standalone.user>
 				<db.standalone.password>12345</db.standalone.password>
 			</properties>
-			
+
 		</profile>
 	</profiles>
 	<modules>
@@ -285,4 +382,15 @@
 		<module>eVisorStandaloneAudit</module>
 		<module>eVisorStandaloneStatistics</module>
 	</modules>
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>Maven-Central-Repository</id>
+			<name>Maven Central Repository</name>
+			<url>http://central.maven.org/maven2/</url>
+		</repository>
+	</repositories>
+	
 </project>

@@ -121,7 +121,7 @@ public class LogController extends AbstractController {
      * Attribute that represents . 
      */
     @Inject @Singleton
-    private AuditManagerI auditManager;
+    private transient AuditManagerI auditManager;
 
     /**
      * 

@@ -55,7 +55,7 @@ import es.gob.signaturereport.persistence.exception.ConfigurationException;
 @Singleton
 @ManagedBean
 @EVisorConfiguration
-public final class ConfigurationFacade implements ApplicationConfigurationFacadeI, AfirmaConfigurationFacadeI, KeystoreConfigurationFacadeI, TemplateConfigurationFacadeI, UserConfigurationFacadeI, AlarmConfigurationFacadeI {
+public class ConfigurationFacade implements ApplicationConfigurationFacadeI, AfirmaConfigurationFacadeI, KeystoreConfigurationFacadeI, TemplateConfigurationFacadeI, UserConfigurationFacadeI, AlarmConfigurationFacadeI {
 
 	/**
 	 * Attribute that represents instance of the class.

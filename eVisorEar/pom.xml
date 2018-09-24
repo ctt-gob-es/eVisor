@@ -44,6 +44,12 @@
 			<version>1.2.16</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.santuario</groupId>
+			<artifactId>xmlsec</artifactId>
+			<version>1.4.8</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
   <build>
@@ -65,51 +71,56 @@
 	</resources>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-       	 <fork>true</fork>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ear-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-            <version>6</version>
-            <defaultLibBundleDir>lib</defaultLibBundleDir>
-            <outputDirectory>${basedir}/target</outputDirectory>
-					<workDirectory>${basedir}/target/earWorkDir</workDirectory>
-					<defaultLibBundleDir>/lib</defaultLibBundleDir>
-					<applicationXml>${basedir}/descriptors/application.xml</applicationXml>
-					<finalName>${project.artifactId}</finalName>
-					<modules>
-						<!-- Librerías de eVisor -->
-						<jarModule>
-							<groupId>es.gob.evisor</groupId>
-							<artifactId>eVisorCore</artifactId>
-							<bundleDir>/</bundleDir>
-						</jarModule>
-						<jarModule>
-							<groupId>es.gob.evisor</groupId>
-							<artifactId>eVisorPersistence</artifactId>
-							<bundleDir>/</bundleDir>
-						</jarModule>
-						<webModule>
-							<groupId>es.gob.evisor</groupId>
-							<artifactId>eVisorWeb</artifactId>
-						</webModule>
-						<jarModule>
-							<groupId>es.gob.evisor</groupId>
-							<artifactId>eVisorToPdfWSClient</artifactId>
-							<bundleDir>/</bundleDir>
-						</jarModule>
-					</modules>
-        </configuration>
-      </plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-ear-plugin</artifactId>
+		<version>2.6</version>
+		<configuration>
+			<version>6</version>
+			<defaultLibBundleDir>lib</defaultLibBundleDir>
+			<outputDirectory>${basedir}/target</outputDirectory>
+			<workDirectory>${basedir}/target/earWorkDir</workDirectory>
+			<defaultLibBundleDir>/lib</defaultLibBundleDir>
+			<applicationXml>${basedir}/descriptors/application.xml</applicationXml>
+			<finalName>${project.artifactId}</finalName>
+			<modules>
+				<!-- Librerías de eVisor -->
+				<jarModule>
+					<groupId>es.gob.evisor</groupId>
+					<artifactId>eVisorCore</artifactId>
+					<bundleDir>/</bundleDir>
+				</jarModule>
+				<jarModule>
+					<groupId>es.gob.evisor</groupId>
+					<artifactId>eVisorPersistence</artifactId>
+					<bundleDir>/</bundleDir>
+				</jarModule>
+				<webModule>
+					<groupId>es.gob.evisor</groupId>
+					<artifactId>eVisorWeb</artifactId>
+				</webModule>
+				<jarModule>
+					<groupId>es.gob.evisor</groupId>
+					<artifactId>eVisorToPdfWSClient</artifactId>
+					<bundleDir>/</bundleDir>
+				</jarModule>
+			</modules>
+			<archive>
+				<manifestEntries>
+					<Built-By>${built.by}</Built-By>
+					<Built-Time>${timestamp}</Built-Time>
+					<Vendor>${project.organization.name}</Vendor>
+					<Project-Name>${evisor.project.name}</Project-Name>
+					<evisor-Version>${version.evisor}</evisor-Version>
+					<Artifact-Version>${version.evisor.ear}</Artifact-Version>
+					<Artifact-Name>${project.name}</Artifact-Name>
+					<evisor-core-Version>${version.evisor.core}</evisor-core-Version>
+					<evisor-persistence-Version>${version.evisor.persistence}</evisor-persistence-Version>
+					<evisor-evisortopdfwSclient-Version>${version.evisor.evisortopdfwSclient}</evisor-evisortopdfwSclient-Version>
+					<evisor-evisorweb-Version>${version.evisor.evisorweb}</evisor-evisorweb-Version>
+				</manifestEntries>
+			</archive>
+		</configuration>
+	</plugin>
     </plugins>
   </build>
 

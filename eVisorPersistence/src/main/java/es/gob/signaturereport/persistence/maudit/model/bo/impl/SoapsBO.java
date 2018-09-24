@@ -40,7 +40,7 @@ public class SoapsBO implements ISoapsBO {
     // CHECKSTYLE:OFF -- Checkstyle rule "Design for Extension" is not applied
     // because injection needs not final access property.
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
 
 	/**
 	 * {@inheritDoc}

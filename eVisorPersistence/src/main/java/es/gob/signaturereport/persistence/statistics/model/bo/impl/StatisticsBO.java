@@ -109,11 +109,11 @@ public class StatisticsBO implements IStatisticsBO {
      * Attribute that allows to interact with the persistence configuration context.
      */
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
 
 
 	@Override
-	public final List<Object[ ]> getStatistics(String hqlGroupQuery, Date beginningTime, Date endingTime) throws DatabaseException {
+	public List<Object[ ]> getStatistics(String hqlGroupQuery, Date beginningTime, Date endingTime) throws DatabaseException {
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(IParametersQueriesConstants.PARAM_BEGININGTIME, beginningTime);

@@ -5,6 +5,7 @@
 		<dependencies>
 				<module name="javax.enterprise.api"></module> <!-- Include cdi-api-1.0-SP4 -->
 				<module name="org.jboss.as.web"></module>
+				<module name="org.bouncycastle"></module>
 		</dependencies>
 		<exclusions>
 			<module name="org.apache.log4j" />

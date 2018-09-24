@@ -42,7 +42,7 @@ public class ActionTypeBO implements IActionTypeBO {
     // CHECKSTYLE:OFF -- Checkstyle rule "Design for Extension" is not applied
     // because injection needs not final access property.
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
     
 	/* (non-Javadoc)
 	 * @see es.gob.signaturereport.persistence.maudit.model.interfaz.IActionTypeBO#getAll()

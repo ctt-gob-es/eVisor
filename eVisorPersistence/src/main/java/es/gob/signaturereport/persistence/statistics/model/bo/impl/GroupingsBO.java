@@ -40,7 +40,7 @@ public class GroupingsBO implements IGroupingsBO {
      * Attribute that allows to interact with the persistence configuration context.
      */
     @Inject
-    private IAuditEntityManager em;
+    private transient IAuditEntityManager em;
 
 	@Override
 	public List<Object[ ]> getGroupedStatistics(String hqlGroupQuery, Date beginningTime, Date endingTime) throws DatabaseException {

@@ -23,4 +23,28 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<!-- Plugin para generar el jar del núcleo de la plataforma. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+                            <Built-By>${built.by}</Built-By>
+                            <Built-Time>${timestamp}</Built-Time>
+                            <Vendor>${project.organization.name}</Vendor>
+                            <Project-Name>${evisor.project.name}</Project-Name>
+                            <evisor-Version>${version.evisor}</evisor-Version>
+                            <Artifact-Version>${version.evisor.evisortopdfwSclient}</Artifact-Version>
+                            <Artifact-Name>${project.name}</Artifact-Name>
+							<evisor-persistence-Version>${version.evisor.persistence}</evisor-persistence-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

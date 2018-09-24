@@ -50,6 +50,15 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
+							<Built-By>${built.by}</Built-By>
+                            <Built-Time>${timestamp}</Built-Time>
+                            <Vendor>${project.organization.name}</Vendor>
+                            <Project-Name>${evisor.project.name}</Project-Name>
+                            <evisor-Version>${version.evisor}</evisor-Version>
+                            <Artifact-Version>${version.evisor.evisorstandalonestatistics}</Artifact-Version>
+                            <Artifact-Name>${project.name}</Artifact-Name>
+                            <evisor-persistence-Version>${version.evisor.persistence}</evisor-persistence-Version>
+                            <evisor-core-Version>${version.evisor.core}</evisor-core-Version>
 							<Dependencies>org.apache.commons.codec, org.apache.log4j</Dependencies>
 						</manifestEntries>
 					</archive>
@@ -69,86 +78,6 @@
 				<configuration>
 				</configuration>
 				<executions>
-					<!-- <execution>
-						<id>copy-hbm-external-audit</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>../ExternalAuditReader/conf/db/audit</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/target/classes/db/audit</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-messages-external-audit</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>../ExternalAuditReader/conf/message-content</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/target/classes/message-content</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-conf-external-audit</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>../ExternalAuditReader/conf/</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/target/classes/</directory>
-									<includes>
-										<include>message-language.properties</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-libs-external-audit</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>../ExternalAuditReader/lib</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/target/eVisorWeb/WEB-INF/lib/</directory>
-									<includes>
-										<include>asm-1.5.3.jar</include>
-										<include>c3p0-0.9.1.2.jar</include>
-										<include>cglib-2.1_3.jar</include>
-										<include>commons-collections-2.1.1.jar</include>
-										<include>commons-logging-1.0.4.jar</include>
-										<include>dom4j-1.6.1.jar</include>
-										<include>hibernate-3.2.7.ga.jar</include>
-										<include>jta-1.0.1B.jar</include>
-										<include>log4j-1.2.14.jar</include>
-										<include>mail-1.4.jar</include>
-										<include>eVisorCore.jar</include>
-										<include>antlr-2.7.6.jar</include>
-										<include>tika-core-1.1.jar</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution> -->
 				</executions>
 			</plugin>
 			<plugin>
@@ -205,7 +134,7 @@
 		</dependency>
 		<dependency>
              <groupId>org.hibernate.javax.persistence</groupId>
-             <artifactId>hibernate-jpa-2.0-api</artifactId>
+    		 <artifactId>hibernate-jpa-2.1-api</artifactId>
              <scope>compile</scope>
         </dependency>
 		<dependency>
@@ -233,7 +162,7 @@
 		</dependency>
 		<dependency>
              <groupId>org.jboss.spec.javax.transaction</groupId>
-             <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+    		 <artifactId>jboss-transaction-api_1.2_spec</artifactId>
              <scope>compile</scope>
         </dependency>
         <dependency>
@@ -246,11 +175,5 @@
    		 	<artifactId>antlr</artifactId>
    			<version>2.7.6</version>
 		</dependency>
-		<!-- dependency>
-    		<groupId>org.apache.tika</groupId>
-    		<artifactId>tika-core</artifactId>
-    		<version>1.2</version>
-    		<scope>provided</scope>
-  		</dependency> -->
 	</dependencies>
 </project>

@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -45,7 +46,8 @@ import es.gob.signaturereport.tools.UtilsTime;
  * <b>Project:</b><p>Horizontal platform to generation signature reports in legible format.</p>
  * @version 1.0, 11/08/2011.
  */
-public final class StatisticPersistenceFacade {
+@ManagedBean
+public class StatisticPersistenceFacade {
 
 	/**
 	 * Attribute that represents the object that manages the log of the class.

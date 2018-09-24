@@ -255,7 +255,7 @@ public class KeystoreModuleBO implements IKeystoreModuleBO {
 		 * @see es.gob.signaturereport.persistence.configuration.model.bo.interfaz.IKeystoreModuleBO#getKeystore(java.lang.String)
 		 */
 		@Override
-		public final KeystorePOJO getKeystore(final String keystoreId) throws DatabaseException {
+		public KeystorePOJO getKeystore(final String keystoreId) throws DatabaseException {
 			if (keystoreId == null) {
 				throw new DatabaseException(DatabaseException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.DB_041));
 			}

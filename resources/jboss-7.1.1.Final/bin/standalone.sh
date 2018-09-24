@@ -197,7 +197,7 @@ while true; do
          \"-Dorg.jboss.boot.log.file=$JBOSS_LOG_DIR/boot.log\" \
          \"-Dlogging.configuration=file:$JBOSS_CONFIG_DIR/logging.properties\" \
          \"-Dlog4j.ignoreTCL=true\" \
-         \"-Dlog4j.configuration=file:$JBOSS_CONFIG_DIR/tsa-log4j.xml\" \
+         \"-Dlog4j.configuration=$JBOSS_CONFIG_DIR/evisor-log4j.xml\" \
          -jar \"$JBOSS_HOME/jboss-modules.jar\" \
          -mp \"${JBOSS_MODULEPATH}\" \
          -jaxpmodule "javax.xml.jaxp-provider" \

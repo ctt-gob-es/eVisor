@@ -74,7 +74,7 @@ public class AfirmaConfigurationFacade implements AfirmaConfigurationFacadeI {
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.configuration.access.AfirmaConfigurationFacadeI#getAfirmaConfiguration(java.lang.String)
 	 */
-	public final AfirmaData getAfirmaConfiguration(final String afirmaId) throws ConfigurationException {
+	public AfirmaData getAfirmaConfiguration(final String afirmaId) throws ConfigurationException {
 		if(afirmaId==null){
 			throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.CONF_046));
 		}
@@ -103,7 +103,7 @@ public class AfirmaConfigurationFacade implements AfirmaConfigurationFacadeI {
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.configuration.access.AfirmaConfigurationFacadeI#createAfirmaConfiguration(java.lang.String, es.gob.signaturereport.configuration.items.AfirmaData)
 	 */
-	public final void createAfirmaConfiguration(final String afirmaId, final AfirmaData afirmaData) throws ConfigurationException {
+	public void createAfirmaConfiguration(final String afirmaId, final AfirmaData afirmaData) throws ConfigurationException {
 		if(afirmaId==null){
 			throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.CONF_046));
 		}
@@ -133,7 +133,7 @@ public class AfirmaConfigurationFacade implements AfirmaConfigurationFacadeI {
 	 * @see es.gob.signaturereport.configuration.access.AfirmaConfigurationFacadeI#getAfirmaIds()
 	 */
 	@Override
-	public final String[ ] getAfirmaIds() throws ConfigurationException {
+	public String[ ] getAfirmaIds() throws ConfigurationException {
 		try {
 						
 			return platformBO.getPlatformIds();
@@ -150,7 +150,7 @@ public class AfirmaConfigurationFacade implements AfirmaConfigurationFacadeI {
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.configuration.access.AfirmaConfigurationFacadeI#modifyAfirmaConfiguration(java.lang.String, es.gob.signaturereport.configuration.items.AfirmaData)
 	 */
-	public final void modifyAfirmaConfiguration(final String afirmaId, final AfirmaData afirmaData) throws ConfigurationException {
+	public void modifyAfirmaConfiguration(final String afirmaId, final AfirmaData afirmaData) throws ConfigurationException {
 		if(afirmaId==null){
 			throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.CONF_046));
 		}
@@ -179,7 +179,7 @@ public class AfirmaConfigurationFacade implements AfirmaConfigurationFacadeI {
 	 * {@inheritDoc}
 	 * @see es.gob.signaturereport.configuration.access.AfirmaConfigurationFacadeI#removeAfirmaConfiguration(java.lang.String)
 	 */
-	public final void removeAfirmaConfiguration(final String afirmaId) throws ConfigurationException {
+	public void removeAfirmaConfiguration(final String afirmaId) throws ConfigurationException {
 		if(afirmaId==null){
 			throw new ConfigurationException(ConfigurationException.INVALID_INPUT_PARAMETERS, Language.getMessage(LanguageKeys.CONF_046));
 		}

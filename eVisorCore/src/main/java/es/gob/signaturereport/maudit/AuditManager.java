@@ -54,7 +54,7 @@ import es.gob.signaturereport.tools.UniqueNumberGenerator;
  */
 @Singleton
 @ManagedBean
-public final class AuditManager implements AuditManagerI {
+public class AuditManager implements AuditManagerI {
 
 	/**
 	 * Attribute that represents class version. 

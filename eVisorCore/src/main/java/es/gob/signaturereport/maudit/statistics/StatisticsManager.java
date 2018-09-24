@@ -51,7 +51,7 @@ import es.gob.signaturereport.tools.UtilsTime;
  */
 @Singleton
 @ManagedBean
-public final class StatisticsManager implements Serializable {
+public class StatisticsManager implements Serializable {
 	
 	/**
 	 * Attribute that represents class version. 
